@@ -19,6 +19,38 @@ namespace Tests
         }
         
         [Test]
+        public void CheckPlayersCanMove()
+        {
+            battleManager.ClearPlayers();
+
+            foreach (var playerData in playerList.player)
+            {
+                battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+            }
+
+            for (int i = 0; i < playerList.player.Length; i++)
+            {
+                Assert.AreEqual( battleManager.IsPlayerCanMove(i), true);
+            }
+        }
+        
+        [Test]
+        public void CheckPlayersCanAttack()
+        {
+            battleManager.ClearPlayers();
+
+            foreach (var playerData in playerList.player)
+            {
+                battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+            }
+
+            for (int i = 0; i < playerList.player.Length; i++)
+            {
+                Assert.AreEqual( battleManager.IsPlayerCanAttack(i), true);
+            }
+        }
+        
+        [Test]
         public void CheckOccupiedPlayerPlace()
         {
             battleManager.ClearPlayers();
