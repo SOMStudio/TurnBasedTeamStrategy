@@ -22,6 +22,7 @@ namespace Tests
         public void CheckPlayersCanMove()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
 
             foreach (var playerData in personageList.personage)
             {
@@ -30,7 +31,7 @@ namespace Tests
 
             for (int i = 0; i < personageList.personage.Length; i++)
             {
-                Assert.AreEqual( battleManager.IsPlayerCanMove(i), true);
+                Assert.IsTrue( battleManager.IsPlayerCanMove(i));
             }
         }
         
@@ -38,6 +39,7 @@ namespace Tests
         public void CheckPlayersCanAttack()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
 
             foreach (var playerData in personageList.personage)
             {
@@ -46,7 +48,7 @@ namespace Tests
 
             for (int i = 0; i < personageList.personage.Length; i++)
             {
-                Assert.AreEqual( battleManager.IsPlayerCanAttack(i), true);
+                Assert.IsTrue( battleManager.IsPlayerCanAttack(i));
             }
         }
         
@@ -54,18 +56,20 @@ namespace Tests
         public void CheckOccupiedPlayerPlace()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
 
             var setPosition = new Vector2Int(0, 0);
             battleManager.AddPlayer(personageList.personage[0], setPosition);
             battleManager.SetLevel(levelList.level[0]);
 
-            Assert.AreEqual( battleManager.IsPositionFree(setPosition), false);
+            Assert.IsFalse( battleManager.IsPositionFree(setPosition));
         }
         
         [Test]
         public void CheckFreeLevel4X4Places()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
 
             var setPosition = new Vector2Int(0, 0);
             battleManager.AddPlayer(personageList.personage[0], setPosition);
@@ -77,7 +81,7 @@ namespace Tests
                 for (int j = 0; j < levelDate.y; j++)
                 {
                     var checkPosition = new Vector2Int(i, j);
-                    if (checkPosition != setPosition) Assert.AreEqual(battleManager.IsPositionFree(checkPosition), true);
+                    if (checkPosition != setPosition) Assert.IsTrue(battleManager.IsPositionFree(checkPosition));
                 }
             }
         }
@@ -86,6 +90,7 @@ namespace Tests
         public void CheckMoveLineDirectPlayer()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
             
             battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(levelList.level[0]);
@@ -101,6 +106,7 @@ namespace Tests
         public void CheckMoveBrokenDirectPlayer()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
             
             battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(levelList.level[0]);
@@ -116,6 +122,7 @@ namespace Tests
         public void CheckMovePositionPlayer()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
             
             battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(levelList.level[0]);
@@ -130,6 +137,7 @@ namespace Tests
         public void CheckAttackPlayerEnemy()
         {
             battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
             
             battleManager.AddPlayer(personageList.personage[0], new Vector2Int(1, 1));
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
