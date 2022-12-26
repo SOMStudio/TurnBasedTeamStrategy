@@ -5,7 +5,7 @@
       "health": 100,
       "damage": 20,
       "attackRange": 1,
-      "actionPoint": 5,
+      "actionPoint": 10,
       "moveActionList": [ 0 ],
       "attackActionList": [ 1 ]
     },
@@ -14,7 +14,7 @@
       "health": 100,
       "damage": 40,
       "attackRange": 3,
-      "actionPoint": 5,
+      "actionPoint": 10,
       "moveActionList": [ 0 ],
       "attackActionList": [ 2 ]
     },
@@ -22,8 +22,8 @@
       "name": "Warrior_Bow",
       "health": 50,
       "damage": 30,
-      "attackRange": 8,
-      "actionPoint": 5,
+      "attackRange": 5,
+      "actionPoint": 10,
       "moveActionList": [ 0 ],
       "attackActionList": [ 3 ]
     }
