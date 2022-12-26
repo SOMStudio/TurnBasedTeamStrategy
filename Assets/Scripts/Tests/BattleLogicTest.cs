@@ -125,6 +125,22 @@ namespace Tests
             
             Assert.AreEqual(battleManager.GetPlayerPosition(0), newPosition);
         }
+        
+        [Test]
+        public void CheckAttackPlayerEnemy()
+        {
+            battleManager.ClearPlayers();
+            
+            battleManager.AddPlayer(playerList.player[0], new Vector2Int(1, 1));
+            battleManager.AddEnemy(playerList.player[0], new Vector2Int(2, 1));
+            battleManager.SetLevel(levelList.level[0]);
+
+            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            battleManager.AttackPlayer(0, 0);
+            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            
+            Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
+        }
 
     
         /*[UnityTest]
