@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace View
 {
-    public class PlayerManager : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+    public class PersonageManager : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
     {
+        [FormerlySerializedAs("_playerNumberDate")]
         [Header("Base")]
-        [SerializeField] private int _playerNumberDate = -1;
+        [SerializeField] private int _personageNumberDate = -1;
 
         [Header("Main")]
         [SerializeField] private StepManager _placeStep;
@@ -15,7 +17,7 @@ namespace View
         public event Action<int, int> OnOverPlayerEvent;
         public event Action<int, int> OnClickPlayerEvent;
         
-        public int PlayerNumberDate => _playerNumberDate;
+        public int PersonageNumberDate => _personageNumberDate;
         public Vector2Int PlaceStep => _placeStep.PlaceStep;
         
         public void OnPointerEnter(PointerEventData eventData)

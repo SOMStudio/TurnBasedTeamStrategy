@@ -8,7 +8,7 @@ namespace Tests
 {
     public class BattleLogicTest
     {
-        private readonly PlayerList playerList = LoadManager.GetPlayerList();
+        private readonly PersonageList personageList = LoadManager.GetPersonageList();
         private readonly LevelList levelList = LoadManager.GetLevelList();
         private readonly BattleSetting setting = LoadManager.GetBattleSetting();
         private readonly BattleManager battleManager = new BattleManager();
@@ -23,12 +23,12 @@ namespace Tests
         {
             battleManager.ClearPlayers();
 
-            foreach (var playerData in playerList.player)
+            foreach (var playerData in personageList.personage)
             {
-                battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+                battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             }
 
-            for (int i = 0; i < playerList.player.Length; i++)
+            for (int i = 0; i < personageList.personage.Length; i++)
             {
                 Assert.AreEqual( battleManager.IsPlayerCanMove(i), true);
             }
@@ -39,12 +39,12 @@ namespace Tests
         {
             battleManager.ClearPlayers();
 
-            foreach (var playerData in playerList.player)
+            foreach (var playerData in personageList.personage)
             {
-                battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+                battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             }
 
-            for (int i = 0; i < playerList.player.Length; i++)
+            for (int i = 0; i < personageList.personage.Length; i++)
             {
                 Assert.AreEqual( battleManager.IsPlayerCanAttack(i), true);
             }
@@ -56,7 +56,7 @@ namespace Tests
             battleManager.ClearPlayers();
 
             var setPosition = new Vector2Int(0, 0);
-            battleManager.AddPlayer(playerList.player[0], setPosition);
+            battleManager.AddPlayer(personageList.personage[0], setPosition);
             battleManager.SetLevel(levelList.level[0]);
 
             Assert.AreEqual( battleManager.IsPositionFree(setPosition), false);
@@ -68,7 +68,7 @@ namespace Tests
             battleManager.ClearPlayers();
 
             var setPosition = new Vector2Int(0, 0);
-            battleManager.AddPlayer(playerList.player[0], setPosition);
+            battleManager.AddPlayer(personageList.personage[0], setPosition);
             battleManager.SetLevel(levelList.level[0]);
 
             var levelDate = battleManager.GetLevelData();
@@ -87,7 +87,7 @@ namespace Tests
         {
             battleManager.ClearPlayers();
             
-            battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+            battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(levelList.level[0]);
             
             var newPosition = new Vector2Int(3, 0);
@@ -102,7 +102,7 @@ namespace Tests
         {
             battleManager.ClearPlayers();
             
-            battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+            battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(levelList.level[0]);
             
             var newPosition = new Vector2Int(2, 2);
@@ -117,7 +117,7 @@ namespace Tests
         {
             battleManager.ClearPlayers();
             
-            battleManager.AddPlayer(playerList.player[0], new Vector2Int(0, 0));
+            battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(levelList.level[0]);
             
             var newPosition = new Vector2Int(2, 2);
@@ -131,8 +131,8 @@ namespace Tests
         {
             battleManager.ClearPlayers();
             
-            battleManager.AddPlayer(playerList.player[0], new Vector2Int(1, 1));
-            battleManager.AddEnemy(playerList.player[0], new Vector2Int(2, 1));
+            battleManager.AddPlayer(personageList.personage[0], new Vector2Int(1, 1));
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
             battleManager.SetLevel(levelList.level[0]);
 
             var healthBeforeAttack = battleManager.GetEnemyDate(0).health;

@@ -1,7 +1,9 @@
-﻿namespace Model
+﻿using UnityEngine.Serialization;
+
+namespace Model
 {
     [System.Serializable]
-    public struct PlayerData
+    public struct PersonageData
     {
         public string name;
         public int health;
@@ -13,8 +15,8 @@
     }
 
     [System.Serializable]
-    public struct PlayerList
+    public struct PersonageList
     {
-        public PlayerData[] player;
+        public PersonageData[] personage;
     }
 }

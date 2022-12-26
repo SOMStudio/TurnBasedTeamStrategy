@@ -2,18 +2,19 @@ using System.Collections.Generic;
 using Controller;
 using Model;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace View
 {
     public class DateLoader : MonoBehaviour
     {
-        public PlayerList _myPlayerList;
+        public PersonageList _myPersonageList;
         public LevelList _myLevelList;
         public BattleSetting _myBattleSetting;
 
         private void Start()
         {
-            _myPlayerList = LoadManager.GetPlayerList();
+            _myPersonageList = LoadManager.GetPersonageList();
             _myLevelList = LoadManager.GetLevelList();
             _myBattleSetting = LoadManager.GetBattleSetting();
 
@@ -28,7 +29,7 @@ namespace View
         private void TestSimpleMovePlayer()
         {
             var battleManager = new BattleManager();
-            battleManager.AddPlayer(_myPlayerList.player[0], new Vector2Int(0, 0));
+            battleManager.AddPlayer(_myPersonageList.personage[0], new Vector2Int(0, 0));
             battleManager.SetLevel(_myLevelList.level[0]);
             battleManager.SetBattleSetting(_myBattleSetting);
 

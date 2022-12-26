@@ -5,13 +5,13 @@ namespace Controller
 {
     public static class LoadManager
     {
-        private static readonly string PlayerJSon = "PlayerList";
+        private static readonly string PersonageJSon = "PersonageList";
         private static readonly string LevelJSon = "LevelList";
         private static readonly string BattleSettingJSon = "BattleSetting";
 
-        public static PlayerList GetPlayerList()
+        public static PersonageList GetPersonageList()
         {
-            return JsonUtility.FromJson<PlayerList>(Resources.Load<TextAsset>(PlayerJSon).text);
+            return JsonUtility.FromJson<PersonageList>(Resources.Load<TextAsset>(PersonageJSon).text);
         }
         
         public static LevelList GetLevelList()

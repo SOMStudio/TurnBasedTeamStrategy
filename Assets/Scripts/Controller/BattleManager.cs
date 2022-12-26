@@ -8,30 +8,30 @@ namespace Controller
 {
     public class BattleManager
     {
-        private List<PlayerData> playerListData;
+        private List<PersonageData> playerListData;
         private List<Vector2Int> playerPositionData;
 
-        private List<PlayerData> enemyListData;
+        private List<PersonageData> enemyListData;
         private List<Vector2Int> enemyPositionData;
 
         private LevelData levelDataData;
         private BattleSetting battleSettingData;
 
         
-        public PlayerData GetPlayerDate(int playerInList) => playerListData[playerInList];
+        public PersonageData GetPlayerDate(int playerInList) => playerListData[playerInList];
         public Vector2Int GetPlayerPosition(int playerInList) => playerPositionData[playerInList];
         
-        public PlayerData GetEnemyDate(int enemyInList) => enemyListData[enemyInList];
+        public PersonageData GetEnemyDate(int enemyInList) => enemyListData[enemyInList];
         public Vector2Int GetEnemyPosition(int enemyInLIst) => enemyPositionData[enemyInLIst];
         public LevelData GetLevelData() => levelDataData;
         public BattleSetting GetBattleSetting() => battleSettingData;
         
         public BattleManager()
         {
-            playerListData = new List<PlayerData>();
+            playerListData = new List<PersonageData>();
             playerPositionData = new List<Vector2Int>();
             
-            enemyListData = new List<PlayerData>();
+            enemyListData = new List<PersonageData>();
             enemyPositionData = new List<Vector2Int>();
         }
 
@@ -45,9 +45,9 @@ namespace Controller
             battleSettingData = setBattleSettingData;
         }
 
-        public void AddPlayer(PlayerData playerDataDate, Vector2Int startPosition)
+        public void AddPlayer(PersonageData personageDataDate, Vector2Int startPosition)
         {
-            playerListData.Add(playerDataDate);
+            playerListData.Add(personageDataDate);
             playerPositionData.Add(startPosition);
         }
 
@@ -57,7 +57,7 @@ namespace Controller
             playerPositionData.Clear();
         }
         
-        public void AddEnemy(PlayerData enemyDate, Vector2Int startPosition)
+        public void AddEnemy(PersonageData enemyDate, Vector2Int startPosition)
         {
             enemyListData.Add(enemyDate);
             enemyPositionData.Add(startPosition);

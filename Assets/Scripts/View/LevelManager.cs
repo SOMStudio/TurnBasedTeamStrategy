@@ -12,19 +12,19 @@ namespace View
         
         [Header("Main")]
         [SerializeField] private StepManager[] _stepList;
-        [SerializeField] private PlayerManager[] _playerList;
-        [SerializeField] private PlayerManager[] _enemyList;
+        [SerializeField] private PersonageManager[] _playerList;
+        [SerializeField] private PersonageManager[] _enemyList;
 
         private BattleManager battleManager;
         private LevelList levelList;
-        private PlayerList playerList;
+        private PersonageList personageList;
         private BattleSetting battleSetting;
 
         private void Awake()
         {
             battleManager = new BattleManager();
             levelList = LoadManager.GetLevelList();
-            playerList = LoadManager.GetPlayerList();
+            personageList = LoadManager.GetPersonageList();
             battleSetting = LoadManager.GetBattleSetting();
             
             battleManager.SetBattleSetting(battleSetting);
@@ -37,14 +37,14 @@ namespace View
                 battleManager.SetLevel(levelList.level[_levelNumberDate]);
 
                 foreach (var playerManager in _playerList)
-                    if (playerManager.PlayerNumberDate >= 0)
-                        battleManager.AddPlayer(playerList.player[playerManager.PlayerNumberDate], playerManager.PlaceStep);
+                    if (playerManager.PersonageNumberDate >= 0)
+                        battleManager.AddPlayer(personageList.personage[playerManager.PersonageNumberDate], playerManager.PlaceStep);
                     else
                         throw new InvalidDataException("Not set player number");
 
                 foreach (var playerManager in _enemyList)
-                    if (playerManager.PlayerNumberDate >= 0)
-                        battleManager.AddEnemy(playerList.player[playerManager.PlayerNumberDate], playerManager.PlaceStep);
+                    if (playerManager.PersonageNumberDate >= 0)
+                        battleManager.AddEnemy(personageList.personage[playerManager.PersonageNumberDate], playerManager.PlaceStep);
                     else
                         throw new InvalidDataException("Not set enemy number");
             }
