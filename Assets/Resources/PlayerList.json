@@ -1,0 +1,31 @@
+{
+  "player": [
+    {
+      "name": "Warrior_Sword",
+      "health": 100,
+      "damage": 20,
+      "attackRange": 1,
+      "actionPoint": 5,
+      "moveActionList": [ 0 ],
+      "attackActionList": [ 1 ]
+    },
+    {
+      "name": "Warrior_Spear",
+      "health": 100,
+      "damage": 40,
+      "attackRange": 3,
+      "actionPoint": 5,
+      "moveActionList": [ 0 ],
+      "attackActionList": [ 2 ]
+    },
+    {
+      "name": "Warrior_Bow",
+      "health": 50,
+      "damage": 30,
+      "attackRange": 8,
+      "actionPoint": 5,
+      "moveActionList": [ 0 ],
+      "attackActionList": [ 3 ]
+    }
+  ]
+}

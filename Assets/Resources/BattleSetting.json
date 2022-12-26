@@ -1,0 +1,10 @@
+﻿{
+  "moveActionPoint": [
+    {"action": "move", "distance": 1, "point": 1}
+  ],
+  "attackActionPoint": [
+    {"action": "sword_attack", "distance": 1, "point": 3},
+    {"action": "spire_attack", "distance": 2, "point": 5},
+    {"action": "bow_attack", "distance": 5, "point": 2}
+  ]
+}
