@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace View
 {
@@ -34,6 +32,7 @@ namespace View
             _placeStep = newStepManager;
             if (sequence == null || !sequence.active)
             {
+                sequence = DOTween.Sequence();
                 foreach (var positionMove in moveVector)
                 {
                     sequence.Append(transform.DOMove(positionMove, _movePointSpeed).SetEase(Ease.Linear));

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Help;
 using Model;
@@ -105,7 +106,7 @@ namespace Controller
 
         public int DistanceForMove(List<Vector2Int> moveList)
         {
-            return moveList.Sum(moveVector => moveVector.x == 0 ? moveVector.y : moveVector.x);
+            return moveList.Sum(moveVector => moveVector.x == 0 ? Math.Abs(moveVector.y) : Math.Abs(moveVector.x));
         }
 
         public List<Vector2Int> GetMoveList(in Vector2Int moveFrom, in Vector2Int moveTo)

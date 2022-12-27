@@ -134,6 +134,27 @@ namespace Tests
         }
         
         [Test]
+        public void CheckMoveDistancePlayer()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            var startPosition = new Vector2Int(0, 0);
+            battleManager.AddPlayer(personageList.personage[0], startPosition);
+            battleManager.SetLevel(levelList.level[0]);
+            
+            var newPosition = new Vector2Int(2, 2);
+            List<Vector2Int> moveList = new List<Vector2Int>(); 
+            battleManager.MovePlayer(0, newPosition, out moveList);
+            
+            Assert.AreEqual(battleManager.DistanceForMove(moveList), 4);
+            
+            battleManager.MovePlayer(0, startPosition, out moveList);
+            
+            Assert.AreEqual(battleManager.DistanceForMove(moveList), 4);
+        }
+        
+        [Test]
         public void CheckAttackPlayerEnemy()
         {
             battleManager.ClearPlayers();

@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.IO;
 using Controller;
 using Model;
@@ -220,18 +220,20 @@ namespace View
             if (clickPlayerNumber != -1)
             {
                 var clickedPlayer = _playerList[clickPlayerNumber];
-                var oldPosition = _playerList[clickPlayerNumber].PlaceStep;
-                var newPosition = new Vector2Int(x, y);
-                if (battleManager.IsPositionFree(newPosition))
+                var oldStep = _playerList[clickPlayerNumber].PlaceStep;
+                var newStep = new Vector2Int(x, y);
+                if (battleManager.IsPositionFree(newStep))
                 {
-                    if (battleManager.MovePlayer(clickPlayerNumber, newPosition, out var moveStepVector))
+                    if (battleManager.MovePlayer(clickPlayerNumber, newStep, out var moveStepVector))
                     {
-                        var moveVector = new List<Vector3>();
-                        foreach (var moveSpline in moveStepVector)
+                        var movePosition = new List<Vector3>();
+                        var moveStep = oldStep;
+                        foreach (var shiftStep in moveStepVector)
                         {
-                            
+                            moveStep += shiftStep;
+                            movePosition.Add(_stepList[GetNumberStep(moveStep)].transform.position);
                         }
-                        clickedPlayer.MoveToPlaceStep(_stepList[GetNumberStep(newPosition)], moveVector);
+                        clickedPlayer.MoveToPlaceStep(_stepList[GetNumberStep(newStep)], movePosition);
                     }
                 }
             }
