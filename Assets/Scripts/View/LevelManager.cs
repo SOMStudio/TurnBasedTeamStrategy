@@ -161,6 +161,30 @@ namespace View
                         _playerList[enterPlayerNumber].OnPointerExit();
                         enterPlayerNumber = -1;
                     }
+                    if (enterEnemyNumber != -1)
+                    {
+                        _enemyList[enterEnemyNumber].OnPointerExit();
+                        enterEnemyNumber = -1;
+                    }
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (enterStepNumber != -1)
+                {
+                    clickStepNumber = enterStepNumber;
+                    _stepList[clickStepNumber].OnPointerClick();
+                }
+                if (enterPlayerNumber != -1)
+                {
+                    clickPlayerNumber = enterPlayerNumber;
+                    _playerList[clickPlayerNumber].OnPointerClick();
+                }
+                if (enterEnemyNumber != -1)
+                {
+                    clickEnemyNumber = enterEnemyNumber;
+                    _enemyList[clickEnemyNumber].OnPointerClick();
                 }
             }
         }
@@ -187,27 +211,27 @@ namespace View
 
         private void OnClickStepHandler(int x, int y)
         {
-            
+            Debug.Log($"Click step: ({x}, {y})");
         }
         
         private void OnOverPlayerHandler(int x, int y)
         {
-            
+            Debug.Log($"Over player: ({x}, {y})");
         }
 
         private void OnClickPlayerHandler(int x, int y)
         {
-            
+            Debug.Log($"Click player: ({x}, {y})");
         }
         
         private void OnOverEnemyHandler(int x, int y)
         {
-            
+            Debug.Log($"Over enemy: ({x}, {y})");
         }
 
         private void OnClickEnemyHandler(int x, int y)
         {
-            
+            Debug.Log($"Click enemy: ({x}, {y})");
         }
     }
 }
