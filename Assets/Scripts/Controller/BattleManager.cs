@@ -20,9 +20,32 @@ namespace Controller
         
         public PersonageData GetPlayerDate(int playerInList) => playerListData[playerInList];
         public Vector2Int GetPlayerPosition(int playerInList) => playerPositionData[playerInList];
+        public int NumberPlayerOnPosition(Vector2Int checkPosition)
+        {
+            if (IsPositionFree(checkPosition)) return -1;
+            else
+            {
+                for (int i = 0; i < playerPositionData.Count; i++)
+                    if (playerPositionData[i] == checkPosition) return i;
+                
+                return -1;
+            }
+        }
         
         public PersonageData GetEnemyDate(int enemyInList) => enemyListData[enemyInList];
         public Vector2Int GetEnemyPosition(int enemyInLIst) => enemyPositionData[enemyInLIst];
+        public int NumberEnemyOnPosition(Vector2Int checkPosition)
+        {
+            if (IsPositionFree(checkPosition)) return -1;
+            else
+            {
+                for (int i = 0; i < enemyPositionData.Count; i++)
+                    if (enemyPositionData[i] == checkPosition) return i;
+                
+                return -1;
+            }
+        }
+        
         public LevelData GetLevelData() => levelDataData;
         public BattleSetting GetBattleSetting() => battleSettingData;
         

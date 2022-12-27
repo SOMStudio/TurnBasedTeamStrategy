@@ -1,33 +1,57 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 namespace View
 {
-    public class PersonageManager : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+    public class PersonageManager : MonoBehaviour
     {
-        [FormerlySerializedAs("_playerNumberDate")]
         [Header("Base")]
         [SerializeField] private int _personageNumberDate = -1;
 
         [Header("Main")]
         [SerializeField] private StepManager _placeStep;
+        [SerializeField] private Transform _mainMesh;
+        [SerializeField] private float _pointerEnterScale = 1.2f;
+        [SerializeField] private float _pointerEnterScaleTime = 0.5f;
         
-        public event Action<int, int> OnOverPlayerEvent;
-        public event Action<int, int> OnClickPlayerEvent;
+        private Sequence sequence;
+        
+        public event Action<int, int> OnOverPersonageEvent;
+        public event Action<int, int> OnClickPersonageEvent;
         
         public int PersonageNumberDate => _personageNumberDate;
         public Vector2Int PlaceStep => _placeStep.PlaceStep;
         
-        public void OnPointerEnter(PointerEventData eventData)
+        private void PointerEnterAnimation()
         {
-            OnOverPlayerEvent?.Invoke(PlaceStep.x, PlaceStep.y);
+            if (sequence == null || !sequence.active)
+            {
+                sequence = DOTween.Sequence();
+                sequence.Append(_mainMesh.DOScale(_pointerEnterScale, _pointerEnterScaleTime)
+                    .SetEase(Ease.Linear)
+                    .SetLoops(2, LoopType.Yoyo));
+                sequence.Play();
+            }
         }
         
-        public void OnPointerClick(PointerEventData eventData)
+        public void OnPointerEnter()
         {
-            OnClickPlayerEvent?.Invoke(PlaceStep.x, PlaceStep.y);
+            PointerEnterAnimation();
+            
+            OnOverPersonageEvent?.Invoke(PlaceStep.x, PlaceStep.y);
+        }
+        
+        public void OnPointerExit()
+        {
+            OnOverPersonageEvent?.Invoke(PlaceStep.x, PlaceStep.y);
+        }
+        
+        public void OnPointerClick()
+        {
+            OnClickPersonageEvent?.Invoke(PlaceStep.x, PlaceStep.y);
         }
     }
 }

@@ -249,7 +249,7 @@ Transform:
   - {fileID: 1320993106}
   - {fileID: 1280165362}
   m_Father: {fileID: 1993194094}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &266896855
 PrefabInstance:
@@ -501,6 +501,10 @@ PrefabInstance:
       propertyPath: _playerNumberDate
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3796135887359959718, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
+      propertyPath: _personageNumberDate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4951504158672202805, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -657,6 +661,10 @@ PrefabInstance:
       objectReference: {fileID: 266896857}
     - target: {fileID: 5555023327861148370, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: _playerNumberDate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5555023327861148370, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
+      propertyPath: _personageNumberDate
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5766792491444678821, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
@@ -1060,6 +1068,10 @@ PrefabInstance:
       propertyPath: _playerNumberDate
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5555023327861148370, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
+      propertyPath: _personageNumberDate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5766792491444678821, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1284,6 +1296,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4461822bf6862934f9ffb402142d4cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1664654441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664654442}
+  - component: {fileID: 1664654443}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Floor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1664654442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664654441}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.7, y: -1, z: 47.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1993194094}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1664654443
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664654441}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 200, y: 1, z: 200}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1687074020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,6 +1611,10 @@ PrefabInstance:
       propertyPath: _playerNumberDate
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3796135887359959718, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
+      propertyPath: _personageNumberDate
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4951504158672202805, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1657,7 +1718,7 @@ Transform:
   - {fileID: 1504893771}
   - {fileID: 2131517912}
   m_Father: {fileID: 1993194094}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1826220098
 PrefabInstance:
@@ -1851,8 +1912,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1401909a81ead72449d12a576d31dbc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myPlayerList:
-    player: []
+  _myPersonageList:
+    personage: []
   _myLevelList:
     level: []
   _myBattleSetting:
@@ -1870,6 +1931,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1664654442}
   - {fileID: 173367462}
   - {fileID: 1788345485}
   m_Father: {fileID: 0}
@@ -1928,6 +1990,10 @@ PrefabInstance:
       objectReference: {fileID: 1500652659}
     - target: {fileID: 3796135887359959718, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
       propertyPath: _playerNumberDate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3796135887359959718, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
+      propertyPath: _personageNumberDate
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4951504158672202805, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
@@ -2092,6 +2158,10 @@ PrefabInstance:
       propertyPath: _playerNumberDate
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5555023327861148370, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
+      propertyPath: _personageNumberDate
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5766792491444678821, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2171,6 +2241,10 @@ PrefabInstance:
       objectReference: {fileID: 1711884644}
     - target: {fileID: 5555023327861148370, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: _playerNumberDate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5555023327861148370, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
+      propertyPath: _personageNumberDate
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5766792491444678821, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
@@ -2325,6 +2399,10 @@ PrefabInstance:
       objectReference: {fileID: 4780392195870039365}
     - target: {fileID: 3796135887359959718, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
       propertyPath: _playerNumberDate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3796135887359959718, guid: e2a2cca6e268f71479f89152973f1069, type: 3}
+      propertyPath: _personageNumberDate
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4951504158672202805, guid: e2a2cca6e268f71479f89152973f1069, type: 3}

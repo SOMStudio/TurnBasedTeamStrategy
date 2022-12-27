@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Controller;
 using Model;
@@ -7,6 +8,10 @@ namespace View
 {
     public class LevelManager : MonoBehaviour
     {
+        private const string StepTag = "Step";
+        private const string PlayerTag = "Player";
+        private const string EnemyTag = "Enemy";
+        
         [Header("Base")]
         [SerializeField] private int _levelNumberDate = -1;
         
@@ -20,8 +25,20 @@ namespace View
         private PersonageList personageList;
         private BattleSetting battleSetting;
 
+        private Camera mainCamera;
+        private RaycastHit hit;
+
+        private int enterStepNumber = -1;
+        private int clickStepNumber = -1;
+        private int enterPlayerNumber = -1;
+        private int clickPlayerNumber = -1;
+        private int enterEnemyNumber = -1;
+        private int clickEnemyNumber = -1;
+        
         private void Awake()
         {
+            mainCamera = Camera.main;
+            
             battleManager = new BattleManager();
             levelList = LoadManager.GetLevelList();
             personageList = LoadManager.GetPersonageList();
@@ -61,14 +78,111 @@ namespace View
 
             foreach (var playerManager in _playerList)
             {
-                playerManager.OnOverPlayerEvent += OnOverPlayerHandler;
-                playerManager.OnClickPlayerEvent += OnClickPlayerHandler;
+                playerManager.OnOverPersonageEvent += OnOverPlayerHandler;
+                playerManager.OnClickPersonageEvent += OnClickPlayerHandler;
             }
+            
+            foreach (var enemyManager in _enemyList)
+            {
+                enemyManager.OnOverPersonageEvent += OnOverEnemyHandler;
+                enemyManager.OnClickPersonageEvent += OnClickEnemyHandler;
+            }
+        }
+
+        private void Update()
+        {
+            var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                if (hit.collider.CompareTag(StepTag))
+                {
+                    if (enterPlayerNumber != -1)
+                    {
+                        _playerList[enterPlayerNumber].OnPointerExit();
+                        enterPlayerNumber = -1;
+                    }
+                    
+                    var enterStepNumberNew = GetNumberStep(hit.transform.GetComponent<StepManager>().PlaceStep);
+                    
+                    if (enterStepNumber != enterStepNumberNew)
+                    {
+                        if (enterStepNumber != -1) _stepList[enterStepNumber].OnPointerExit();
+
+                        enterStepNumber = enterStepNumberNew;
+                        _stepList[enterStepNumber].OnPointerEnter();
+                    }
+                }
+                else if (hit.collider.CompareTag(PlayerTag))
+                {
+                    if (enterStepNumber != -1)
+                    {
+                        _stepList[enterStepNumber].OnPointerExit();
+                        enterStepNumber = -1;
+                    }
+
+                    var enterPlayerNumberNew = GetNumberPlayer(hit.transform.GetComponent<PersonageManager>().PlaceStep);
+
+                    if (enterPlayerNumber != enterPlayerNumberNew)
+                    {
+                        if (enterPlayerNumber != -1) _playerList[enterPlayerNumber].OnPointerExit();
+
+                        enterPlayerNumber = enterPlayerNumberNew;
+                        _playerList[enterPlayerNumber].OnPointerEnter();
+                    }
+                }
+                else if (hit.collider.CompareTag(EnemyTag))
+                {
+                    if (enterStepNumber != -1)
+                    {
+                        _stepList[enterStepNumber].OnPointerExit();
+                        enterStepNumber = -1;
+                    }
+
+                    var enterEnemyNumberNew = GetNumberEnemy(hit.transform.GetComponent<PersonageManager>().PlaceStep);
+
+                    if (enterEnemyNumber != enterEnemyNumberNew)
+                    {
+                        if (enterEnemyNumber != -1) _enemyList[enterEnemyNumber].OnPointerExit();
+
+                        enterEnemyNumber = enterEnemyNumberNew;
+                        _enemyList[enterEnemyNumber].OnPointerEnter();
+                    }
+                }
+                else
+                {
+                    if (enterStepNumber != -1)
+                    {
+                        _stepList[enterStepNumber].OnPointerExit();
+                        enterStepNumber = -1;
+                    }
+                    if (enterPlayerNumber != -1)
+                    {
+                        _playerList[enterPlayerNumber].OnPointerExit();
+                        enterPlayerNumber = -1;
+                    }
+                }
+            }
+        }
+
+        private int GetNumberStep(Vector2Int stepCoordinate)
+        {
+            return stepCoordinate.y * battleManager.GetLevelData().x + stepCoordinate.x;
+        }
+
+        private int GetNumberPlayer(Vector2Int stepCoordinate)
+        {
+            return battleManager.NumberPlayerOnPosition(stepCoordinate);
+        }
+        
+        private int GetNumberEnemy(Vector2Int stepCoordinate)
+        {
+            return battleManager.NumberEnemyOnPosition(stepCoordinate);
         }
 
         private void OnOverStepHandler(int x, int y)
         {
-            
+            Debug.Log($"Over step: ({x}, {y})");
         }
 
         private void OnClickStepHandler(int x, int y)
@@ -82,6 +196,16 @@ namespace View
         }
 
         private void OnClickPlayerHandler(int x, int y)
+        {
+            
+        }
+        
+        private void OnOverEnemyHandler(int x, int y)
+        {
+            
+        }
+
+        private void OnClickEnemyHandler(int x, int y)
         {
             
         }
