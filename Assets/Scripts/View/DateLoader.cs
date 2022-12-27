@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Controller;
 using Model;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace View
 {
