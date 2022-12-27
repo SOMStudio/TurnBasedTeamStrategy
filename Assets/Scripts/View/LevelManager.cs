@@ -97,11 +97,8 @@ namespace View
             {
                 if (hit.collider.CompareTag(StepTag))
                 {
-                    if (enterPlayerNumber != -1)
-                    {
-                        _playerList[enterPlayerNumber].OnPointerExit();
-                        enterPlayerNumber = -1;
-                    }
+                    CheckClearOverPlayerNumber();
+                    CheckClearOverEnemyNumber();
                     
                     var enterStepNumberNew = GetNumberStep(hit.transform.GetComponent<StepManager>().PlaceStep);
                     
@@ -115,11 +112,8 @@ namespace View
                 }
                 else if (hit.collider.CompareTag(PlayerTag))
                 {
-                    if (enterStepNumber != -1)
-                    {
-                        _stepList[enterStepNumber].OnPointerExit();
-                        enterStepNumber = -1;
-                    }
+                    CheckClearOverStepNumber();
+                    CheckClearOverEnemyNumber();
 
                     var enterPlayerNumberNew = GetNumberPlayer(hit.transform.GetComponent<PersonageManager>().PlaceStep);
 
@@ -133,11 +127,8 @@ namespace View
                 }
                 else if (hit.collider.CompareTag(EnemyTag))
                 {
-                    if (enterStepNumber != -1)
-                    {
-                        _stepList[enterStepNumber].OnPointerExit();
-                        enterStepNumber = -1;
-                    }
+                    CheckClearOverStepNumber();
+                    CheckClearOverPlayerNumber();
 
                     var enterEnemyNumberNew = GetNumberEnemy(hit.transform.GetComponent<PersonageManager>().PlaceStep);
 
@@ -151,21 +142,9 @@ namespace View
                 }
                 else
                 {
-                    if (enterStepNumber != -1)
-                    {
-                        _stepList[enterStepNumber].OnPointerExit();
-                        enterStepNumber = -1;
-                    }
-                    if (enterPlayerNumber != -1)
-                    {
-                        _playerList[enterPlayerNumber].OnPointerExit();
-                        enterPlayerNumber = -1;
-                    }
-                    if (enterEnemyNumber != -1)
-                    {
-                        _enemyList[enterEnemyNumber].OnPointerExit();
-                        enterEnemyNumber = -1;
-                    }
+                    CheckClearOverStepNumber();
+                    CheckClearOverPlayerNumber();
+                    CheckClearOverEnemyNumber();
                 }
             }
 
@@ -188,6 +167,31 @@ namespace View
                 }
             }
         }
+
+		private void CheckClearOverStepNumber()
+		{
+			if (enterStepNumber != -1)
+            {
+                _stepList[enterStepNumber].OnPointerExit();
+                enterStepNumber = -1;
+            }
+		}
+
+		private void CheckClearOverPlayerNumber(){
+			if (enterPlayerNumber != -1)
+            {
+                _playerList[enterPlayerNumber].OnPointerExit();
+                enterPlayerNumber = -1;
+            }
+		}
+
+		private void CheckClearOverEnemyNumber(){
+			if (enterEnemyNumber != -1)
+            {
+                _enemyList[enterEnemyNumber].OnPointerExit();
+                enterEnemyNumber = -1;
+            }
+		}
 
         private int GetNumberStep(Vector2Int stepCoordinate)
         {
@@ -212,6 +216,25 @@ namespace View
         private void OnClickStepHandler(int x, int y)
         {
             Debug.Log($"Click step: ({x}, {y})");
+            
+            if (clickPlayerNumber != -1)
+            {
+                var clickedPlayer = _playerList[clickPlayerNumber];
+                var oldPosition = _playerList[clickPlayerNumber].PlaceStep;
+                var newPosition = new Vector2Int(x, y);
+                if (battleManager.IsPositionFree(newPosition))
+                {
+                    if (battleManager.MovePlayer(clickPlayerNumber, newPosition, out var moveStepVector))
+                    {
+                        var moveVector = new List<Vector3>();
+                        foreach (var moveSpline in moveStepVector)
+                        {
+                            
+                        }
+                        clickedPlayer.MoveToPlaceStep(_stepList[GetNumberStep(newPosition)], moveVector);
+                    }
+                }
+            }
         }
         
         private void OnOverPlayerHandler(int x, int y)
