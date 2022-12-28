@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Model;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 namespace View
 {
@@ -15,9 +18,22 @@ namespace View
         [SerializeField] private Transform _mainMesh;
         [SerializeField] private float _pointerEnterScale = 1.2f;
         [SerializeField] private float _pointerEnterScaleTime = 0.5f;
-
+        
         [Header("Move")] 
-        [SerializeField] private float _movePointSpeed = 0.5f;
+        [SerializeField] private float _movePositionSpeed = 0.5f;
+
+        [Header("State")]
+        [SerializeField] private TMP_Text _personageTypeText;
+        [SerializeField] private Slider _healthSlider;
+        [SerializeField] private TMP_Text _healthText;
+        [SerializeField] private Slider _pointsSlider;
+        [SerializeField] private TMP_Text _pointsText;
+        
+        private int maxHealth;
+        private int currentHealth;
+
+        private int maxPoints;
+        private int currentPoints;
         
         private Sequence sequence;
         
@@ -27,7 +43,42 @@ namespace View
         public int PersonageNumberDate => _personageNumberDate;
         public Vector2Int PlaceStep => _placeStep.PlaceStep;
 
-        public void MoveToPlaceStep(StepManager newStepManager, List<Vector3> moveVector)
+        public void SetStartState(PersonageData personageDate)
+        {
+            _personageTypeText.text = personageDate.name;
+            
+            maxHealth = personageDate.health;
+            currentHealth = maxHealth;
+            UpdateHealthUI();
+
+            maxPoints = personageDate.actionPoint;
+            currentPoints = maxPoints;
+            _pointsText.text = $"{currentPoints}/{maxPoints}";
+            UpdatePointsUI();
+        }
+
+        public void UpdateState(PersonageData personageData)
+        {
+            currentHealth = personageData.health;
+            UpdateHealthUI();
+
+            currentPoints = personageData.actionPoint;
+            UpdatePointsUI();
+        }
+
+        private void UpdateHealthUI()
+        {
+            _healthSlider.value = (float)currentHealth / maxHealth;
+            _healthText.text = $"{currentHealth}/{maxHealth}";
+        }
+        
+        private void UpdatePointsUI()
+        {
+            _pointsSlider.value = (float)currentPoints / maxPoints;
+            _pointsText.text = $"{currentPoints}/{maxPoints}";
+        }
+        
+        public void MoveToPosition(StepManager newStepManager, List<Vector3> moveVector)
         {
             _placeStep = newStepManager;
             if (sequence == null || !sequence.active)
@@ -35,7 +86,7 @@ namespace View
                 sequence = DOTween.Sequence();
                 foreach (var positionMove in moveVector)
                 {
-                    sequence.Append(transform.DOMove(positionMove, _movePointSpeed).SetEase(Ease.Linear));
+                    sequence.Append(transform.DOMove(positionMove, _movePositionSpeed).SetEase(Ease.Linear));
                 }
                 sequence.Play();
             }

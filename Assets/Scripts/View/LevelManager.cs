@@ -55,13 +55,19 @@ namespace View
 
                 foreach (var playerManager in _playerList)
                     if (playerManager.PersonageNumberDate >= 0)
+                    {
                         battleManager.AddPlayer(personageList.personage[playerManager.PersonageNumberDate], playerManager.PlaceStep);
+                        playerManager.SetStartState(personageList.personage[playerManager.PersonageNumberDate]);
+                    }
                     else
                         throw new InvalidDataException("Not set player number");
 
-                foreach (var playerManager in _enemyList)
-                    if (playerManager.PersonageNumberDate >= 0)
-                        battleManager.AddEnemy(personageList.personage[playerManager.PersonageNumberDate], playerManager.PlaceStep);
+                foreach (var enemyManager in _enemyList)
+                    if (enemyManager.PersonageNumberDate >= 0)
+                    {
+                        battleManager.AddEnemy(personageList.personage[enemyManager.PersonageNumberDate], enemyManager.PlaceStep);
+                        enemyManager.SetStartState(personageList.personage[enemyManager.PersonageNumberDate]);
+                    }
                     else
                         throw new InvalidDataException("Not set enemy number");
             }
@@ -216,25 +222,24 @@ namespace View
         private void OnClickStepHandler(int x, int y)
         {
             Debug.Log($"Click step: ({x}, {y})");
-            
+
             if (clickPlayerNumber != -1)
             {
                 var clickedPlayer = _playerList[clickPlayerNumber];
                 var oldStep = _playerList[clickPlayerNumber].PlaceStep;
                 var newStep = new Vector2Int(x, y);
-                if (battleManager.IsPositionFree(newStep))
+                
+                if (battleManager.MovePlayer(clickPlayerNumber, newStep, out var moveStepVector))
                 {
-                    if (battleManager.MovePlayer(clickPlayerNumber, newStep, out var moveStepVector))
+                    var movePosition = new List<Vector3>();
+                    var moveStep = oldStep;
+                    foreach (var shiftStep in moveStepVector)
                     {
-                        var movePosition = new List<Vector3>();
-                        var moveStep = oldStep;
-                        foreach (var shiftStep in moveStepVector)
-                        {
-                            moveStep += shiftStep;
-                            movePosition.Add(_stepList[GetNumberStep(moveStep)].transform.position);
-                        }
-                        clickedPlayer.MoveToPlaceStep(_stepList[GetNumberStep(newStep)], movePosition);
+                        moveStep += shiftStep;
+                        movePosition.Add(_stepList[GetNumberStep(moveStep)].transform.position);
                     }
+                    clickedPlayer.MoveToPosition(_stepList[GetNumberStep(newStep)], movePosition);
+                    clickedPlayer.UpdateState(battleManager.GetPlayerDate(clickPlayerNumber));
                 }
             }
         }
@@ -257,6 +262,18 @@ namespace View
         private void OnClickEnemyHandler(int x, int y)
         {
             Debug.Log($"Click enemy: ({x}, {y})");
+
+            if (clickPlayerNumber != -1)
+            {
+                var clickedPlayer = _playerList[clickPlayerNumber];
+                var clickedEnemy = _enemyList[clickEnemyNumber];
+                
+                if (battleManager.AttackPlayer(clickPlayerNumber, clickEnemyNumber))
+                {
+                    clickedPlayer.UpdateState(battleManager.GetPlayerDate(clickPlayerNumber));
+                    clickedEnemy.UpdateState(battleManager.GetEnemyDate(clickEnemyNumber));
+                }
+            }
         }
     }
 }
