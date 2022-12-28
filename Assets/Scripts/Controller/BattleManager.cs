@@ -204,15 +204,18 @@ namespace Controller
                         
                         if (attackPoint <= playerListData[playerInList].actionPoint)
                         {
-                            var newPlayerDate = playerListData[playerInList].Clone();
-                            newPlayerDate.actionPoint -= attackPoint;
-                            playerListData[playerInList] = newPlayerDate;
-                            
-                            var newEnemyDate = enemyListData[enemyInList].Clone();
-                            newEnemyDate.health -= newPlayerDate.damage <= newEnemyDate.health ? newPlayerDate.damage : newEnemyDate.health;
-                            enemyListData[enemyInList] = newEnemyDate;
-                            
-                            return true;
+                            if (enemyListData[enemyInList].health > 0)
+                            {
+                                var newPlayerDate = playerListData[playerInList].Clone();
+                                newPlayerDate.actionPoint -= attackPoint;
+                                playerListData[playerInList] = newPlayerDate;
+
+                                var newEnemyDate = enemyListData[enemyInList].Clone();
+                                newEnemyDate.health -= newPlayerDate.damage <= newEnemyDate.health ? newPlayerDate.damage : newEnemyDate.health;
+                                enemyListData[enemyInList] = newEnemyDate;
+
+                                return true;
+                            }
                         }
                     }
                 }
@@ -266,15 +269,18 @@ namespace Controller
                         
                         if (attackPoint <= enemyListData[enemyInList].actionPoint)
                         {
-                            var newEnemyDate = enemyListData[enemyInList].Clone();
-                            newEnemyDate.actionPoint -= attackPoint;
-                            enemyListData[enemyInList] = newEnemyDate;
-                            
-                            var newPlayerDate = playerListData[playerInList].Clone();
-                            newPlayerDate.health -= newEnemyDate.damage <= newPlayerDate.health ? newEnemyDate.damage : newPlayerDate.health;
-                            playerListData[playerInList] = newPlayerDate;
-                            
-                            return true;
+                            if (playerListData[playerInList].health > 0)
+                            {
+                                var newEnemyDate = enemyListData[enemyInList].Clone();
+                                newEnemyDate.actionPoint -= attackPoint;
+                                enemyListData[enemyInList] = newEnemyDate;
+
+                                var newPlayerDate = playerListData[playerInList].Clone();
+                                newPlayerDate.health -= newEnemyDate.damage <= newPlayerDate.health ? newEnemyDate.damage : newPlayerDate.health;
+                                playerListData[playerInList] = newPlayerDate;
+
+                                return true;
+                            }
                         }
                     }
                 }
