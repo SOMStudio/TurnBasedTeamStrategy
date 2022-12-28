@@ -221,8 +221,6 @@ namespace View
 
         private void OnClickStepHandler(int x, int y)
         {
-            Debug.Log($"Click step: ({x}, {y})");
-
             if (clickPlayerNumber != -1)
             {
                 var clickedPlayer = _playerList[clickPlayerNumber];
@@ -261,8 +259,6 @@ namespace View
 
         private void OnClickEnemyHandler(int x, int y)
         {
-            Debug.Log($"Click enemy: ({x}, {y})");
-
             if (clickPlayerNumber != -1)
             {
                 var clickedPlayer = _playerList[clickPlayerNumber];
