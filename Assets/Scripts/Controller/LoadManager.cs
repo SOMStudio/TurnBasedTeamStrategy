@@ -5,9 +5,9 @@ namespace Controller
 {
     public static class LoadManager
     {
-        private static readonly string PersonageJSon = "PersonageList";
-        private static readonly string LevelJSon = "LevelList";
-        private static readonly string BattleSettingJSon = "BattleSetting";
+        private static readonly string PersonageJSon = "Settings/PersonageList";
+        private static readonly string LevelJSon = "Settings/LevelList";
+        private static readonly string BattleSettingJSon = "Settings/BattleSetting";
 
         public static PersonageList GetPersonageList()
         {
@@ -22,6 +22,11 @@ namespace Controller
         public static BattleSetting GetBattleSetting()
         {
             return JsonUtility.FromJson<BattleSetting>(Resources.Load<TextAsset>(BattleSettingJSon).text);
+        }
+
+        public static Sprite GetSpriteLevel(string name)
+        {
+            return Resources.Load<Sprite>($"Sprites/{name}");
         }
     }
 }
