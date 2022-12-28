@@ -155,7 +155,7 @@ namespace Tests
         }
         
         [Test]
-        public void CheckAttackPlayerEnemy()
+        public void CheckAttackPlayerEnemy_WarriorSword()
         {
             battleManager.ClearPlayers();
             battleManager.ClearEnemies();
@@ -170,7 +170,91 @@ namespace Tests
             
             Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
         }
+        
+        [Test]
+        public void CheckCanNotAttackPlayerEnemy_WarriorSword()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 1));
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
+            battleManager.SetLevel(levelList.level[0]);
 
+            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            battleManager.AttackPlayer(0, 0);
+            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            
+            Assert.IsTrue(healthAfterAttack == healthBeforeAttack);
+        }
+
+        [Test]
+        public void CheckAttackPlayerEnemy_WarriorSpear()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddPlayer(personageList.personage[1], new Vector2Int(1, 1));
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
+            battleManager.SetLevel(levelList.level[0]);
+
+            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            battleManager.AttackPlayer(0, 0);
+            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            
+            Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
+        }
+        
+        [Test]
+        public void CheckCanNotAttackPlayerEnemy_WarriorSpear()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddPlayer(personageList.personage[1], new Vector2Int(0, 1));
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(3, 1));
+            battleManager.SetLevel(levelList.level[0]);
+
+            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            battleManager.AttackPlayer(0, 0);
+            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            
+            Assert.IsTrue(healthAfterAttack == healthBeforeAttack);
+        }
+        
+        [Test]
+        public void CheckAttackPlayerEnemy_WarriorBow()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddPlayer(personageList.personage[2], new Vector2Int(1, 1));
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(3, 1));
+            battleManager.SetLevel(levelList.level[3]);
+
+            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            battleManager.AttackPlayer(0, 0);
+            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            
+            Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
+        }
+        
+        [Test]
+        public void CheckCanNotAttackPlayerEnemy_WarriorBow()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddPlayer(personageList.personage[2], new Vector2Int(0, 1));
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(7, 1));
+            battleManager.SetLevel(levelList.level[3]);
+
+            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            battleManager.AttackPlayer(0, 0);
+            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            
+            Assert.IsTrue(healthAfterAttack == healthBeforeAttack);
+        }
     
         /*[UnityTest]
         public IEnumerator BattleLogicWithEnumeratorPasses()

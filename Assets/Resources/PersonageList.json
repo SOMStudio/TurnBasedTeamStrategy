@@ -7,16 +7,16 @@
       "attackRange": 1,
       "actionPoint": 10,
       "moveActionList": [ 0 ],
-      "attackActionList": [ 1 ]
+      "attackActionList": [ 0 ]
     },
     {
       "name": "Warrior_Spear",
       "health": 100,
       "damage": 40,
-      "attackRange": 3,
+      "attackRange": 2,
       "actionPoint": 10,
       "moveActionList": [ 0 ],
-      "attackActionList": [ 2 ]
+      "attackActionList": [ 1 ]
     },
     {
       "name": "Warrior_Bow",
@@ -25,7 +25,7 @@
       "attackRange": 5,
       "actionPoint": 10,
       "moveActionList": [ 0 ],
-      "attackActionList": [ 3 ]
+      "attackActionList": [ 2 ]
     }
   ]
 }
