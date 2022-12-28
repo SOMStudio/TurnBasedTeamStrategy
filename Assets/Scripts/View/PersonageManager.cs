@@ -78,7 +78,7 @@ namespace View
             _pointsText.text = $"{currentPoints}/{maxPoints}";
         }
         
-        public void MoveToPosition(StepManager newStepManager, List<Vector3> moveVector)
+        public void MoveToPosition(StepManager newStepManager, List<Vector3> moveVector, Action onCompleteMove = null)
         {
             _placeStep = newStepManager;
             if (sequence == null || !sequence.active)
@@ -88,8 +88,14 @@ namespace View
                 {
                     sequence.Append(transform.DOMove(positionMove, _movePositionSpeed).SetEase(Ease.Linear));
                 }
+                if (onCompleteMove != null) sequence.AppendCallback(onCompleteMove.Invoke);
                 sequence.Play();
             }
+        }
+        
+        public void Attack(Action onCompleteAttack = null)
+        {
+            //add attack animation
         }
         
         private void PointerEnterAnimation()

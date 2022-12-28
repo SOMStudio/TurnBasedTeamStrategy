@@ -222,6 +222,30 @@ namespace View
             return battleManager.NumberEnemyOnPosition(stepCoordinate);
         }
 
+        public void MovePersonage(PersonageManager personage, Vector2Int newStepPosition, List<Vector2Int> moveStepVector, PersonageData updatedState, System.Action onCompletedMove = null)
+        {
+            var movePosition = new List<Vector3>();
+            var moveStep = personage.PlaceStep;
+            foreach (var shiftStep in moveStepVector)
+            {
+                moveStep += shiftStep;
+                movePosition.Add(_stepList[GetNumberStep(moveStep)].transform.position);
+            }
+            personage.MoveToPosition(_stepList[GetNumberStep(newStepPosition)], movePosition, onCompletedMove);
+            personage.UpdateState(updatedState);
+        }
+
+        public void AttackPersonage(PersonageManager attacking, PersonageManager attacked, PersonageData attackingState, PersonageData attackedSate, System.Action onCompleteAttack = null)
+        {
+            attacking.Attack(onCompleteAttack);
+            attacked.Attack();
+            
+            attacking.UpdateState(attackingState);
+            attacked.UpdateState(attackedSate);
+
+            CheckCompleteLevel();
+        }
+
         private void CheckCompleteLevel()
         {
             if (battleManager.GetPlayerHealth() == 0)
@@ -252,15 +276,7 @@ namespace View
                 
                 if (battleManager.MovePlayer(clickPlayerNumber, newStep, out var moveStepVector))
                 {
-                    var movePosition = new List<Vector3>();
-                    var moveStep = oldStep;
-                    foreach (var shiftStep in moveStepVector)
-                    {
-                        moveStep += shiftStep;
-                        movePosition.Add(_stepList[GetNumberStep(moveStep)].transform.position);
-                    }
-                    clickedPlayer.MoveToPosition(_stepList[GetNumberStep(newStep)], movePosition);
-                    clickedPlayer.UpdateState(battleManager.GetPlayerDate(clickPlayerNumber));
+                    MovePersonage(clickedPlayer, newStep, moveStepVector, battleManager.GetPlayerDate(clickPlayerNumber));
                 }
             }
         }

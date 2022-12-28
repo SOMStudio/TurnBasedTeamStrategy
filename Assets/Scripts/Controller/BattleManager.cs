@@ -18,7 +18,8 @@ namespace Controller
         private LevelData levelDataData;
         private BattleSetting battleSettingData;
 
-        
+
+        public int PlayerCount => playerListData.Count;
         public PersonageData GetPlayerDate(int playerInList) => playerListData[playerInList];
         public Vector2Int GetPlayerPosition(int playerInList) => playerPositionData[playerInList];
         public int NumberPlayerOnPosition(Vector2Int checkPosition)
@@ -32,7 +33,8 @@ namespace Controller
                 return -1;
             }
         }
-        
+
+        public int EnemyCount => enemyListData.Count;
         public PersonageData GetEnemyDate(int enemyInList) => enemyListData[enemyInList];
         public Vector2Int GetEnemyPosition(int enemyInLIst) => enemyPositionData[enemyInLIst];
         public int NumberEnemyOnPosition(Vector2Int checkPosition)
