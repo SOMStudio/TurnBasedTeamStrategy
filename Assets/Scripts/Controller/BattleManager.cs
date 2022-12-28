@@ -288,5 +288,15 @@ namespace Controller
 
             return false;
         }
+
+        public int GetPlayerHealth()
+        {
+            return playerListData.Sum(personageData => personageData.health);
+        }
+
+        public int GetEnemyHealth()
+        {
+            return enemyListData.Sum(personageData => personageData.health);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using Controller;
 using Model;
 using UnityEngine;
+using View.UI;
 
 namespace View
 {
@@ -19,6 +20,9 @@ namespace View
         [SerializeField] private StepManager[] _stepList;
         [SerializeField] private PersonageManager[] _playerList;
         [SerializeField] private PersonageManager[] _enemyList;
+
+        [Header("UI")]
+        [SerializeField] private LevelUiManager _uiManager;
 
         private BattleManager battleManager;
         private LevelList levelList;
@@ -76,6 +80,8 @@ namespace View
                 throw new InvalidDataException("Not set level number");
             }
 
+            _uiManager.InitInformation(battleManager.GetEnemyHealth(), battleManager.GetPlayerHealth());
+            
             foreach (var stepManager in _stepList)
             {
                 stepManager.OnOverStepEvent += OnOverStepHandler;
@@ -97,6 +103,8 @@ namespace View
 
         private void Update()
         {
+            if (_uiManager.IsMenuActive) return;
+            
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 100))
@@ -214,6 +222,21 @@ namespace View
             return battleManager.NumberEnemyOnPosition(stepCoordinate);
         }
 
+        private void CheckCompleteLevel()
+        {
+            if (battleManager.GetPlayerHealth() == 0)
+            {
+                _uiManager.ShowResultWindow("You lose this game!");
+            }
+            if (battleManager.GetEnemyHealth() == 0)
+            {
+                _uiManager.ShowResultWindow("You win this game!");
+            }
+            
+            _uiManager.UpdateInformation(battleManager.GetEnemyHealth(), battleManager.GetPlayerHealth());
+        }
+
+        #region EventHandlers
         private void OnOverStepHandler(int x, int y)
         {
             Debug.Log($"Over step: ({x}, {y})");
@@ -268,8 +291,11 @@ namespace View
                 {
                     clickedPlayer.UpdateState(battleManager.GetPlayerDate(clickPlayerNumber));
                     clickedEnemy.UpdateState(battleManager.GetEnemyDate(clickEnemyNumber));
+
+                    CheckCompleteLevel();
                 }
             }
         }
+        #endregion
     }
 }
