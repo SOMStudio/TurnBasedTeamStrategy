@@ -102,6 +102,15 @@ namespace View
             sequence.Play();
         }
 
+        public void Death(Action onCompleteAttack = null)
+        {
+            var sequence = DOTween.Sequence();
+            sequence.Append(_mainMesh.DORotate(new Vector3(90, 0, 0), _attackTime, RotateMode.FastBeyond360).SetEase(Ease.Linear))
+                .AppendCallback(() => gameObject.SetActive(false));
+            if (onCompleteAttack != null) sequence.AppendCallback(onCompleteAttack.Invoke);
+            sequence.Play();
+        }
+
         private void PointerEnterAnimation()
         {
             var sequence = DOTween.Sequence();

@@ -259,7 +259,11 @@ namespace View
         public void AttackPersonage(PersonageManager attacking, PersonageManager attacked, PersonageData attackingState, PersonageData attackedSate, System.Action onCompleteAttack = null)
         {
             attacking.Attack(onCompleteAttack);
-            attacked.Attack();
+            
+            if (attackedSate.health > 0)
+                attacked.Attack();
+            else
+                attacked.Death();
             
             attacking.UpdateState(attackingState);
             attacked.UpdateState(attackedSate);
