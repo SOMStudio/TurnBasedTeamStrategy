@@ -20,7 +20,10 @@ namespace View
         [SerializeField] private float _pointerEnterScaleTime = 0.5f;
         
         [Header("Move")] 
-        [SerializeField] private float _movePositionSpeed = 0.5f;
+        [SerializeField] private float _movePositionTime = 0.5f;
+
+        [Header("Attack")]
+        [SerializeField] private float _attackTime = 0.5f;
 
         [Header("State")]
         [SerializeField] private TMP_Text _personageTypeText;
@@ -34,9 +37,7 @@ namespace View
 
         private int maxPoints;
         private int currentPoints;
-        
-        private Sequence sequence;
-        
+
         public event Action<int, int> OnOverPersonageEvent;
         public event Action<int, int> OnClickPersonageEvent;
         
@@ -77,39 +78,39 @@ namespace View
             _pointsSlider.value = (float)currentPoints / maxPoints;
             _pointsText.text = $"{currentPoints}/{maxPoints}";
         }
-        
+
         public void MoveToPosition(StepManager newStepManager, List<Vector3> moveVector, Action onCompleteMove = null)
         {
             _placeStep = newStepManager;
-            if (sequence == null || !sequence.active)
+
+            var sequence = DOTween.Sequence();
+            foreach (var positionMove in moveVector)
             {
-                sequence = DOTween.Sequence();
-                foreach (var positionMove in moveVector)
-                {
-                    sequence.Append(transform.DOMove(positionMove, _movePositionSpeed).SetEase(Ease.Linear));
-                }
-                if (onCompleteMove != null) sequence.AppendCallback(onCompleteMove.Invoke);
-                sequence.Play();
+                sequence.Append(transform.DOMove(positionMove, _movePositionTime).SetEase(Ease.Linear));
             }
+            if (onCompleteMove != null) sequence.AppendCallback(onCompleteMove.Invoke);
+            sequence.Play();
         }
-        
+
         public void Attack(Action onCompleteAttack = null)
         {
-            //add attack animation
+            var sequence = DOTween.Sequence();
+            sequence.Append(_mainMesh.DORotate(new Vector3(0, 180, 0), _attackTime, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetLoops(2, LoopType.Yoyo));
+            if (onCompleteAttack != null) sequence.AppendCallback(onCompleteAttack.Invoke);
+            sequence.Play();
         }
-        
+
         private void PointerEnterAnimation()
         {
-            if (sequence == null || !sequence.active)
-            {
-                sequence = DOTween.Sequence();
-                sequence.Append(_mainMesh.DOScale(_pointerEnterScale, _pointerEnterScaleTime)
-                    .SetEase(Ease.Linear)
-                    .SetLoops(2, LoopType.Yoyo));
-                sequence.Play();
-            }
+            var sequence = DOTween.Sequence();
+            sequence.Append(_mainMesh.DOScale(_pointerEnterScale, _pointerEnterScaleTime)
+                .SetEase(Ease.Linear)
+                .SetLoops(2, LoopType.Yoyo));
+            sequence.Play();
         }
-        
+
         public void OnPointerEnter()
         {
             PointerEnterAnimation();
