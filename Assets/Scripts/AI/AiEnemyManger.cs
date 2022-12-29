@@ -152,6 +152,19 @@ namespace AI
                 var movePersonage = levelManager.GetEnemyPersonageManager(activePersonageNumber);
                 levelManager.MovePersonage(movePersonage, nearestPlacePoint, moveStepVector, movePersonageData, () => aiState = AiState.AttackEnemy);
             }
+            else
+            {
+                if (activePersonageNumber < battleManager.EnemyCount - 1)
+                {
+                    activePersonageNumber++;
+                    
+                    SelectPersonage();
+                }
+                else
+                {
+                    StartCoroutine(StartWithDelay(CompleteDelay, () => aiState = AiState.Complete));
+                }
+            }
         }
 
         private void Complete()
