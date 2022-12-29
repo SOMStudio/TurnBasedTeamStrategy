@@ -306,12 +306,12 @@ namespace Controller
             return false;
         }
 
-        public int GetPlayerHealth()
+        public int GetPlayerTeamHealth()
         {
             return playerListData.Sum(personageData => personageData.health);
         }
 
-        public int GetEnemyHealth()
+        public int GetEnemyTeamHealth()
         {
             return enemyListData.Sum(personageData => personageData.health);
         }

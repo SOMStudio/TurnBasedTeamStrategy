@@ -113,7 +113,7 @@ namespace View
                 enemyManager.OnClickPersonageEvent += OnClickEnemyHandler;
             }
             
-            _uiManager.InitInformation(battleManager.GetEnemyHealth(), battleManager.GetPlayerHealth());
+            _uiManager.InitInformation(battleManager.GetEnemyTeamHealth(), battleManager.GetPlayerTeamHealth());
             _uiManager.ClickNextTurnButtonEvent += ActivateAiEnemyHandler;
             
             _aiEnemyManager.InitState(battleManager, this);
@@ -269,16 +269,16 @@ namespace View
 
         private void CheckCompleteLevel()
         {
-            if (battleManager.GetPlayerHealth() == 0)
+            if (battleManager.GetPlayerTeamHealth() == 0)
             {
                 _uiManager.ShowResultWindow("You lose this game!");
             }
-            if (battleManager.GetEnemyHealth() == 0)
+            if (battleManager.GetEnemyTeamHealth() == 0)
             {
                 _uiManager.ShowResultWindow("You win this game!");
             }
             
-            _uiManager.UpdateInformation(battleManager.GetEnemyHealth(), battleManager.GetPlayerHealth());
+            _uiManager.UpdateInformation(battleManager.GetEnemyTeamHealth(), battleManager.GetPlayerTeamHealth());
         }
 
         #region EventHandlers
