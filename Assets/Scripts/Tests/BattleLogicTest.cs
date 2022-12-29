@@ -164,9 +164,9 @@ namespace Tests
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
             battleManager.SetLevel(levelList.level[0]);
 
-            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            var healthBeforeAttack = battleManager.GetEnemyData(0).health;
             battleManager.AttackPlayer(0, 0);
-            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            var healthAfterAttack = battleManager.GetEnemyData(0).health;
             
             Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
         }
@@ -181,9 +181,9 @@ namespace Tests
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
             battleManager.SetLevel(levelList.level[0]);
 
-            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            var healthBeforeAttack = battleManager.GetEnemyData(0).health;
             battleManager.AttackPlayer(0, 0);
-            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            var healthAfterAttack = battleManager.GetEnemyData(0).health;
             
             Assert.IsTrue(healthAfterAttack == healthBeforeAttack);
         }
@@ -198,9 +198,9 @@ namespace Tests
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(2, 1));
             battleManager.SetLevel(levelList.level[0]);
 
-            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            var healthBeforeAttack = battleManager.GetEnemyData(0).health;
             battleManager.AttackPlayer(0, 0);
-            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            var healthAfterAttack = battleManager.GetEnemyData(0).health;
             
             Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
         }
@@ -215,9 +215,9 @@ namespace Tests
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(3, 1));
             battleManager.SetLevel(levelList.level[0]);
 
-            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            var healthBeforeAttack = battleManager.GetEnemyData(0).health;
             battleManager.AttackPlayer(0, 0);
-            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            var healthAfterAttack = battleManager.GetEnemyData(0).health;
             
             Assert.IsTrue(healthAfterAttack == healthBeforeAttack);
         }
@@ -232,9 +232,9 @@ namespace Tests
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(3, 1));
             battleManager.SetLevel(levelList.level[3]);
 
-            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            var healthBeforeAttack = battleManager.GetEnemyData(0).health;
             battleManager.AttackPlayer(0, 0);
-            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            var healthAfterAttack = battleManager.GetEnemyData(0).health;
             
             Assert.IsTrue(healthAfterAttack < healthBeforeAttack);
         }
@@ -249,9 +249,9 @@ namespace Tests
             battleManager.AddEnemy(personageList.personage[0], new Vector2Int(7, 1));
             battleManager.SetLevel(levelList.level[3]);
 
-            var healthBeforeAttack = battleManager.GetEnemyDate(0).health;
+            var healthBeforeAttack = battleManager.GetEnemyData(0).health;
             battleManager.AttackPlayer(0, 0);
-            var healthAfterAttack = battleManager.GetEnemyDate(0).health;
+            var healthAfterAttack = battleManager.GetEnemyData(0).health;
             
             Assert.IsTrue(healthAfterAttack == healthBeforeAttack);
         }
