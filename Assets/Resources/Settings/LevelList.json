@@ -9,22 +9,22 @@
     },
     {
       "name": "6x4",
-      "scene": "Scene4x4",
-      "sprite": "Level4x4",
+      "scene": "Scene6x4",
+      "sprite": "Level6x4",
       "x": 6,
       "y": 4
     },
     {
       "name": "6x6",
       "scene": "Scene4x4",
-      "sprite": "Level4x4",
+      "sprite": "Level6x6",
       "x": 6,
       "y": 6
     },
     {
       "name": "8x6",
       "scene": "Scene4x4",
-      "sprite": "Level4x4",
+      "sprite": "Level8x6",
       "x": 8,
       "y": 6
     }
