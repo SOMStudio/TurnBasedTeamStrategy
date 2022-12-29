@@ -16,7 +16,7 @@
     },
     {
       "name": "6x6",
-      "scene": "Scene4x4",
+      "scene": "Scene6x6",
       "sprite": "Level6x6",
       "x": 6,
       "y": 6
