@@ -101,7 +101,7 @@ namespace AI
             }
             else
             {
-                if (activePersonageNumber < battleManager.EnemyCount)
+                if (activePersonageNumber < battleManager.EnemyCount - 1)
                 {
                     activePersonageNumber++;
                     
