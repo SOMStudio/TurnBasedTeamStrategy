@@ -266,6 +266,17 @@ namespace View
 
             CheckCompleteLevel();
         }
+        
+        private void RestorePointsAllPersonage()
+        {
+            battleManager.RestorePointsForPlayerTeam();
+            battleManager.RestorePointsForEnemyTeam();
+
+            for (int i = 0; i < _playerList.Length; i++)
+                _playerList[i].UpdateState(battleManager.GetPlayerData(i));
+            for (int i = 0; i < _enemyList.Length; i++)
+                _enemyList[i].UpdateState(battleManager.GetEnemyData(i));
+        }
 
         private void CheckCompleteLevel()
         {
@@ -342,6 +353,8 @@ namespace View
         
         private void OnCompleteAiEnemyHandler()
         {
+            RestorePointsAllPersonage();
+
             _uiManager.UnLockNextTurnButton();
         }
         #endregion

@@ -157,7 +157,7 @@ namespace AI
         private void Complete()
         {
             aiState = AiState.Wait;
-            _active = true;
+            _active = false;
             
             // move back personages
             

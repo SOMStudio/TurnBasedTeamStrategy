@@ -10,6 +10,7 @@ namespace Model
         public int damage;
         public int attackRange;
         public int actionPoint;
+        public int actionPointMax;
         public int[] moveActionList;
         public int[] attackActionList;
     }

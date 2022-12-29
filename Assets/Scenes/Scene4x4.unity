@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 195500465}
   - component: {fileID: 195500464}
   m_Layer: 5
-  m_Name: NextTurne_Button
+  m_Name: NextTurn_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -432,7 +432,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 195500465}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 958629150}
+        m_TargetAssemblyTypeName: View.UI.LevelUiManager, Scripts
+        m_MethodName: TurnButtonClickHandler
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &195500465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1501,6 +1513,7 @@ MonoBehaviour:
   _leftTeamText: {fileID: 711436111}
   _rightTeamSlider: {fileID: 2146261529}
   _rightTeamText: {fileID: 1086388179}
+  _nextTurnButton: {fileID: 195500464}
 --- !u!1 &1047681854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,7 +2385,7 @@ GameObject:
   - component: {fileID: 1379656230}
   - component: {fileID: 1379656229}
   m_Layer: 5
-  m_Name: TurnPanel
+  m_Name: NextTurnPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4549,28 +4562,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 55.13
       objectReference: {fileID: 0}
     - target: {fileID: 7343407010001269662, guid: 05d20d80502568e49ab9a1c03d3c0b0b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

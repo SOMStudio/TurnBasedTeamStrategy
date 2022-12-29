@@ -315,5 +315,25 @@ namespace Controller
         {
             return enemyListData.Sum(personageData => personageData.health);
         }
+
+        public void RestorePointsForPlayerTeam()
+        {
+            for (int i = 0; i < playerListData.Count; i++)
+            {
+                var newEnemyData = playerListData[i].Clone();
+                newEnemyData.actionPoint = newEnemyData.actionPointMax;
+                playerListData[i] = newEnemyData;
+            }
+        }
+        
+        public void RestorePointsForEnemyTeam()
+        {
+            for (int i = 0; i < enemyListData.Count; i++)
+            {
+                var newEnemyData = enemyListData[i].Clone();
+                newEnemyData.actionPoint = newEnemyData.actionPointMax;
+                enemyListData[i] = newEnemyData;
+            }
+        }
     }
 }

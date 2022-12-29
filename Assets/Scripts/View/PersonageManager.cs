@@ -52,8 +52,8 @@ namespace View
             currentHealth = maxHealth;
             UpdateHealthUI();
 
-            maxPoints = personageDate.actionPoint;
-            currentPoints = maxPoints;
+            maxPoints = personageDate.actionPointMax;
+            currentPoints = personageDate.actionPoint;
             _pointsText.text = $"{currentPoints}/{maxPoints}";
             UpdatePointsUI();
         }

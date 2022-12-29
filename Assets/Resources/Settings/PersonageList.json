@@ -6,6 +6,7 @@
       "damage": 20,
       "attackRange": 1,
       "actionPoint": 10,
+      "actionPointMax": 10,
       "moveActionList": [ 0 ],
       "attackActionList": [ 0 ]
     },
@@ -15,6 +16,7 @@
       "damage": 40,
       "attackRange": 2,
       "actionPoint": 10,
+      "actionPointMax": 10,
       "moveActionList": [ 0 ],
       "attackActionList": [ 1 ]
     },
@@ -24,6 +26,7 @@
       "damage": 30,
       "attackRange": 5,
       "actionPoint": 10,
+      "actionPointMax": 10,
       "moveActionList": [ 0 ],
       "attackActionList": [ 2 ]
     }
