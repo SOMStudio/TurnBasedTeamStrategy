@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace View.UI
+namespace View.UI.Level
 {
     public class TopPanelManager : MonoBehaviour
     {
@@ -11,6 +11,7 @@ namespace View.UI
         [SerializeField] private TMP_Text _leftTeamText;
         [SerializeField] private Slider _rightTeamSlider;
         [SerializeField] private TMP_Text _rightTeamText;
+        [SerializeField] private Button _nextTurnButton;
 
         private int maxHealthLeftTeam;
         private int currentHealthLeftTeam;
@@ -50,6 +51,11 @@ namespace View.UI
         {
             _rightTeamSlider.value = (float)currentHealthRightTeam / maxHealthRightTeam;
             _rightTeamText.text = $"{currentHealthRightTeam}/{maxHealthRightTeam}";
+        }
+
+        public void SetNextTurnButtonInteractiveState(bool setState)
+        {
+            _nextTurnButton.interactable = setState;
         }
     }
 }

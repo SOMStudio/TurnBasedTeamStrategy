@@ -1,7 +1,7 @@
-using Model;
+using System;
 using UnityEngine;
 
-namespace View.UI
+namespace View.UI.Level
 {
     public class LevelUiManager : MonoBehaviour
     {
@@ -12,6 +12,8 @@ namespace View.UI
 
         private bool isMenuActive = false;
 
+        public event Action ClickNextTurnButtonEvent;
+        
         public bool IsMenuActive => isMenuActive;
         
         public void InitInformation(int leftTeamHealth, int rightEnemyHealth)
@@ -35,5 +37,20 @@ namespace View.UI
 
             isMenuActive = true;
         }
+
+        public void TurnButtonClickHandler()
+        {
+            ClickNextTurnButtonEvent?.Invoke();
+        }
+
+        public void LockNextTurnButton()
+        {
+            _topPanel.SetNextTurnButtonInteractiveState(false);
+        }
+        
+        public void UnLockNextTurnButton()
+        {
+            _topPanel.SetNextTurnButtonInteractiveState(true);
+        } 
     }
 }

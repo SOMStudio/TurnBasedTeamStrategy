@@ -24,10 +24,13 @@ namespace AI
         private int nearestEnemyNumber = 0;
 
         public event System.Action OnCompleteEvent;
+
+        public bool IsAiActive => _active;
         
-        public void InitState(BattleManager battleManagerSet)
+        public void InitState(BattleManager battleManagerSet, LevelManager levelManagerSet)
         {
             battleManager = battleManagerSet;
+            levelManager = levelManagerSet;
         }
 
         public void ActivateAi()
@@ -115,18 +118,21 @@ namespace AI
         {
             aiState = AiState.Wait;
             
-            var attackingPersonageData = battleManager.GetEnemyData(activePersonageNumber);
-            var attackedPersonageData = battleManager.GetPlayerData(nearestEnemyNumber);
-            
             if (battleManager.AttackEnemy(activePersonageNumber, nearestEnemyNumber))
             {
+                var attackingPersonageData = battleManager.GetEnemyData(activePersonageNumber);
+                var attackedPersonageData = battleManager.GetPlayerData(nearestEnemyNumber);
                 var attackingPersonage = levelManager.GetEnemyPersonageManager(activePersonageNumber);
                 var attackedPersonage = levelManager.GetPlayerPersonageManager(nearestEnemyNumber);
                 void OnCompleteAction() => aiState = AiState.AttackEnemy;
+                
                 levelManager.AttackPersonage(attackingPersonage, attackedPersonage, attackingPersonageData, attackedPersonageData, OnCompleteAction);
             }
             else
             {
+                var attackingPersonageData = battleManager.GetEnemyData(activePersonageNumber);
+                var attackedPersonageData = battleManager.GetPlayerData(nearestEnemyNumber);
+                
                 if (attackedPersonageData.health <= 0 || attackingPersonageData.actionPoint <= 0)
                     StartCoroutine(StartWithDelay(SelectEnemyDelay, () => aiState = AiState.SelectPersonage));
                 else
@@ -138,7 +144,14 @@ namespace AI
         {
             aiState = AiState.Wait;
 
-            //Vector2Int nearestStep
+            var nearestPlacePoint = SelectNearestPoint();
+            
+            if (battleManager.MoveEnemy(activePersonageNumber, nearestPlacePoint, out var moveStepVector))
+            {
+                var movePersonageData = battleManager.GetEnemyData(activePersonageNumber);
+                var movePersonage = levelManager.GetEnemyPersonageManager(activePersonageNumber);
+                levelManager.MovePersonage(movePersonage, nearestPlacePoint, moveStepVector, movePersonageData, () => aiState = AiState.AttackEnemy);
+            }
         }
 
         private void Complete()
@@ -149,6 +162,33 @@ namespace AI
             // move back personages
             
             StartCoroutine(StartWithDelay(SelectEnemyDelay, () => OnCompleteEvent?.Invoke()));
+        }
+
+        private Vector2Int SelectNearestPoint()
+        {
+            Vector2Int nearestPlacePoint = Vector2Int.zero;
+            int smallerDistanceToEnemy = 100;
+
+            var personagePosition = battleManager.GetEnemyPosition(activePersonageNumber);
+            var enemyPosition = battleManager.GetPlayerPosition(nearestEnemyNumber);
+            var shiftStepPlaceList = new Vector2Int[4] {Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down};
+
+            foreach (var vectorShift in shiftStepPlaceList)
+            {
+                var checkStepPosition = enemyPosition + vectorShift;
+                
+                if (battleManager.IsPositionInLevelSize(checkStepPosition) && battleManager.IsPositionFree(checkStepPosition))
+                {
+                    var distanceToEnemy = battleManager.DistanceForMove(battleManager.GetMoveList(personagePosition, checkStepPosition));
+                    if (distanceToEnemy < smallerDistanceToEnemy)
+                    {
+                        nearestPlacePoint = checkStepPosition;
+                        smallerDistanceToEnemy = distanceToEnemy;
+                    }
+                }
+            }
+
+            return nearestPlacePoint;
         }
 
         private int SelectNearestEnemy()
@@ -163,9 +203,10 @@ namespace AI
                 var distanceToEnemy = battleManager.DistanceForMove(battleManager.GetMoveList(personagePosition, enemyPosition));
                 var enemyDate = battleManager.GetPlayerData(i);
 
-                if (distanceToEnemy < smallerDistanceToEnemy && enemyDate.health > 0)
+                if (enemyDate.health > 0 && distanceToEnemy < smallerDistanceToEnemy)
                 {
                     nearestPlayerNumber = i;
+                    smallerDistanceToEnemy = distanceToEnemy;
                 }
             }
             return nearestPlayerNumber;

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace View.UI
+namespace View.UI.Level
 {
     public class ResultWindowManager : MonoBehaviour
     {

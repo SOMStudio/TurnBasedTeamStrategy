@@ -5,6 +5,7 @@ using Controller;
 using Model;
 using UnityEngine;
 using View.UI;
+using View.UI.Level;
 
 namespace View
 {
@@ -94,8 +95,6 @@ namespace View
                 throw new InvalidDataException("Not set level number");
             }
 
-            _uiManager.InitInformation(battleManager.GetEnemyHealth(), battleManager.GetPlayerHealth());
-            
             foreach (var stepManager in _stepList)
             {
                 stepManager.OnOverStepEvent += OnOverStepHandler;
@@ -113,6 +112,12 @@ namespace View
                 enemyManager.OnOverPersonageEvent += OnOverEnemyHandler;
                 enemyManager.OnClickPersonageEvent += OnClickEnemyHandler;
             }
+            
+            _uiManager.InitInformation(battleManager.GetEnemyHealth(), battleManager.GetPlayerHealth());
+            _uiManager.ClickNextTurnButtonEvent += ActivateAiEnemyHandler;
+            
+            _aiEnemyManager.InitState(battleManager, this);
+            _aiEnemyManager.OnCompleteEvent += OnCompleteAiEnemyHandler;
         }
 
         private void Update()
@@ -176,6 +181,8 @@ namespace View
                 }
             }
 
+            if (_aiEnemyManager.IsAiActive) return;
+            
             if (Input.GetMouseButtonDown(0))
             {
                 if (enterStepNumber != -1)
@@ -277,7 +284,7 @@ namespace View
         #region EventHandlers
         private void OnOverStepHandler(int x, int y)
         {
-            Debug.Log($"Over step: ({x}, {y})");
+            
         }
 
         private void OnClickStepHandler(int x, int y)
@@ -297,17 +304,17 @@ namespace View
         
         private void OnOverPlayerHandler(int x, int y)
         {
-            Debug.Log($"Over player: ({x}, {y})");
+            
         }
 
         private void OnClickPlayerHandler(int x, int y)
         {
-            Debug.Log($"Click player: ({x}, {y})");
+            
         }
         
         private void OnOverEnemyHandler(int x, int y)
         {
-            Debug.Log($"Over enemy: ({x}, {y})");
+            
         }
 
         private void OnClickEnemyHandler(int x, int y)
@@ -324,6 +331,18 @@ namespace View
                     AttackPersonage(clickedPlayer, clickedEnemy, attackingPlayerData, attackedEnemyData);
                 }
             }
+        }
+
+        private void ActivateAiEnemyHandler()
+        {
+            _uiManager.LockNextTurnButton();
+            
+            _aiEnemyManager.ActivateAi();
+        }
+        
+        private void OnCompleteAiEnemyHandler()
+        {
+            _uiManager.UnLockNextTurnButton();
         }
         #endregion
     }

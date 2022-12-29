@@ -95,14 +95,17 @@ namespace Controller
             enemyPositionData.Clear();
         }
 
+        public bool IsPositionInLevelSize(Vector2Int checkPosition)
+        {
+            if (checkPosition.x < 0 || checkPosition.x >= levelData.x) return false;
+            if (checkPosition.y < 0 || checkPosition.y >= levelData.y) return false;
+            return true;
+        }
+        
         public bool IsPositionFree(Vector2Int checkPosition)
         {
-            if (playerPositionData.Any(position => position == checkPosition))
-                return false;
-            
-            if (enemyPositionData.Any(position => position == checkPosition))
-                return false;
-            
+            if (playerPositionData.Any(position => position == checkPosition)) return false;
+            if (enemyPositionData.Any(position => position == checkPosition)) return false;
             return true;
         }
 
@@ -134,6 +137,22 @@ namespace Controller
         public int GetPointsForMoveAction(int numberMoveAction)
         {
             return battleSettingData.moveActionPoint[numberMoveAction].point;
+        }
+        
+        public int PointsForMovePlayer(int playerInList, Vector2Int newPosition, out List<Vector2Int> moveList)
+        {
+            moveList = GetMoveList(playerPositionData[playerInList], newPosition);
+            int moveActonNumber = playerListData[playerInList].moveActionList[0];
+            
+            return DistanceForMove(moveList) * GetPointsForMoveAction(moveActonNumber);
+        }
+        
+        public int PointsForMoveEnemy(int playerInList, Vector2Int newPosition, out List<Vector2Int> moveList)
+        {
+            moveList = GetMoveList(enemyPositionData[playerInList], newPosition);
+            int moveActonNumber = enemyListData[playerInList].moveActionList[0];
+            
+            return DistanceForMove(moveList) * GetPointsForMoveAction(moveActonNumber);
         }
 
         public int GetAttackDistance(in Vector2Int shootFrom, in Vector2Int shootTo)
@@ -169,9 +188,7 @@ namespace Controller
                 {
                     if (IsPlayerCanMove(playerInList))
                     {
-                        moveList = GetMoveList(playerPositionData[playerInList], newPosition);
-                        int moveActonNumber = playerListData[playerInList].moveActionList[0];
-                        int movePoint = DistanceForMove(moveList) * GetPointsForMoveAction(moveActonNumber);
+                        int movePoint = PointsForMovePlayer(playerInList, newPosition, out moveList);
                         
                         if (movePoint <= playerListData[playerInList].actionPoint)
                         {
@@ -234,9 +251,7 @@ namespace Controller
                 {
                     if (IsEnemyCanMove(enemyInList))
                     {
-                        moveList = GetMoveList(enemyPositionData[enemyInList], newPosition);
-                        int moveActionNumber = enemyListData[enemyInList].moveActionList[0];
-                        int movePoint = DistanceForMove(moveList) * GetPointsForMoveAction(moveActionNumber);
+                        int movePoint = PointsForMoveEnemy(enemyInList, newPosition, out moveList);
 
                         if (enemyListData[enemyInList].actionPoint <= movePoint)
                         {
