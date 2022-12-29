@@ -253,7 +253,7 @@ namespace Controller
                     {
                         int movePoint = PointsForMoveEnemy(enemyInList, newPosition, out moveList);
 
-                        if (enemyListData[enemyInList].actionPoint <= movePoint)
+                        if (movePoint <= enemyListData[enemyInList].actionPoint)
                         {
                             var newPlayerData = enemyListData[enemyInList].Clone();
                             newPlayerData.actionPoint -= movePoint;
