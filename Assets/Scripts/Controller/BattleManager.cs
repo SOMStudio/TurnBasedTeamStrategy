@@ -108,6 +108,19 @@ namespace Controller
             if (enemyPositionData.Any(position => position == checkPosition)) return false;
             return true;
         }
+        
+        public bool IsPositionFreeOrPersonageDead(Vector2Int checkPosition)
+        {
+            for (int i = 0; i < playerPositionData.Count; i++)
+                if (playerPositionData[i] == checkPosition && playerListData[i].health > 0)
+                    return false;
+
+            for (int i = 0; i < enemyPositionData.Count; i++)
+                if (enemyPositionData[i] == checkPosition && enemyListData[i].health > 0)
+                    return false;
+            
+            return true;
+        }
 
         public int DistanceForMove(List<Vector2Int> moveList)
         {
@@ -184,7 +197,7 @@ namespace Controller
         {
             if (playerInList < playerListData.Count)
             {
-                if (playerPositionData[playerInList] != newPosition && IsPositionFree(newPosition))
+                if (playerPositionData[playerInList] != newPosition && IsPositionFreeOrPersonageDead(newPosition))
                 {
                     if (IsPlayerCanMove(playerInList))
                     {
@@ -247,7 +260,7 @@ namespace Controller
         {
             if (enemyInList < enemyListData.Count)
             {
-                if (enemyPositionData[enemyInList] != newPosition && IsPositionFree(newPosition))
+                if (enemyPositionData[enemyInList] != newPosition && IsPositionFreeOrPersonageDead(newPosition))
                 {
                     if (IsEnemyCanMove(enemyInList))
                     {

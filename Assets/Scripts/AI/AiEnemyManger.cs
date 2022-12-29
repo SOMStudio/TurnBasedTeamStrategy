@@ -190,7 +190,7 @@ namespace AI
             {
                 var checkStepPosition = enemyPosition + vectorShift;
                 
-                if (battleManager.IsPositionInLevelSize(checkStepPosition) && battleManager.IsPositionFree(checkStepPosition))
+                if (battleManager.IsPositionInLevelSize(checkStepPosition) && battleManager.IsPositionFreeOrPersonageDead(checkStepPosition))
                 {
                     var distanceToEnemy = battleManager.DistanceForMove(battleManager.GetMoveList(personagePosition, checkStepPosition));
                     if (distanceToEnemy < smallerDistanceToEnemy)
