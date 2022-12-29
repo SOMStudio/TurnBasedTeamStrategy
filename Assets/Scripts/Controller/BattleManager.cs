@@ -15,12 +15,12 @@ namespace Controller
         private List<PersonageData> enemyListData;
         private List<Vector2Int> enemyPositionData;
 
-        private LevelData levelDataData;
+        private LevelData levelData;
         private BattleSetting battleSettingData;
 
 
         public int PlayerCount => playerListData.Count;
-        public PersonageData GetPlayerDate(int playerInList) => playerListData[playerInList];
+        public PersonageData GetPlayerData(int playerInList) => playerListData[playerInList];
         public Vector2Int GetPlayerPosition(int playerInList) => playerPositionData[playerInList];
         public int NumberPlayerOnPosition(Vector2Int checkPosition)
         {
@@ -35,7 +35,7 @@ namespace Controller
         }
 
         public int EnemyCount => enemyListData.Count;
-        public PersonageData GetEnemyDate(int enemyInList) => enemyListData[enemyInList];
+        public PersonageData GetEnemyData(int enemyInList) => enemyListData[enemyInList];
         public Vector2Int GetEnemyPosition(int enemyInLIst) => enemyPositionData[enemyInLIst];
         public int NumberEnemyOnPosition(Vector2Int checkPosition)
         {
@@ -49,7 +49,7 @@ namespace Controller
             }
         }
         
-        public LevelData GetLevelData() => levelDataData;
+        public LevelData GetLevelData() => levelData;
         public BattleSetting GetBattleSetting() => battleSettingData;
         
         public BattleManager()
@@ -61,9 +61,9 @@ namespace Controller
             enemyPositionData = new List<Vector2Int>();
         }
 
-        public void SetLevel(LevelData setLevelDataDate)
+        public void SetLevel(LevelData setLevelData)
         {
-            levelDataData = setLevelDataDate;
+            levelData = setLevelData;
         }
 
         public void SetBattleSetting(BattleSetting setBattleSettingData)
@@ -71,9 +71,9 @@ namespace Controller
             battleSettingData = setBattleSettingData;
         }
 
-        public void AddPlayer(PersonageData personageDataDate, Vector2Int startPosition)
+        public void AddPlayer(PersonageData personageData, Vector2Int startPosition)
         {
-            playerListData.Add(personageDataDate);
+            playerListData.Add(personageData);
             playerPositionData.Add(startPosition);
         }
 
@@ -83,9 +83,9 @@ namespace Controller
             playerPositionData.Clear();
         }
         
-        public void AddEnemy(PersonageData enemyDate, Vector2Int startPosition)
+        public void AddEnemy(PersonageData enemyData, Vector2Int startPosition)
         {
-            enemyListData.Add(enemyDate);
+            enemyListData.Add(enemyData);
             enemyPositionData.Add(startPosition);
         }
 
@@ -175,9 +175,9 @@ namespace Controller
                         
                         if (movePoint <= playerListData[playerInList].actionPoint)
                         {
-                            var newPlayerDate = playerListData[playerInList].Clone();
-                            newPlayerDate.actionPoint -= movePoint;
-                            playerListData[playerInList] = newPlayerDate;
+                            var newPlayerData = playerListData[playerInList].Clone();
+                            newPlayerData.actionPoint -= movePoint;
+                            playerListData[playerInList] = newPlayerData;
                             
                             playerPositionData[playerInList] = newPosition;
                             
@@ -208,13 +208,13 @@ namespace Controller
                         {
                             if (enemyListData[enemyInList].health > 0)
                             {
-                                var newPlayerDate = playerListData[playerInList].Clone();
-                                newPlayerDate.actionPoint -= attackPoint;
-                                playerListData[playerInList] = newPlayerDate;
+                                var newPlayerData = playerListData[playerInList].Clone();
+                                newPlayerData.actionPoint -= attackPoint;
+                                playerListData[playerInList] = newPlayerData;
 
-                                var newEnemyDate = enemyListData[enemyInList].Clone();
-                                newEnemyDate.health -= newPlayerDate.damage <= newEnemyDate.health ? newPlayerDate.damage : newEnemyDate.health;
-                                enemyListData[enemyInList] = newEnemyDate;
+                                var newEnemyData = enemyListData[enemyInList].Clone();
+                                newEnemyData.health -= newPlayerData.damage <= newEnemyData.health ? newPlayerData.damage : newEnemyData.health;
+                                enemyListData[enemyInList] = newEnemyData;
 
                                 return true;
                             }
@@ -240,9 +240,9 @@ namespace Controller
 
                         if (enemyListData[enemyInList].actionPoint <= movePoint)
                         {
-                            var newPlayerDate = enemyListData[enemyInList].Clone();
-                            newPlayerDate.actionPoint -= movePoint;
-                            enemyListData[enemyInList] = newPlayerDate;
+                            var newPlayerData = enemyListData[enemyInList].Clone();
+                            newPlayerData.actionPoint -= movePoint;
+                            enemyListData[enemyInList] = newPlayerData;
                             
                             enemyPositionData[enemyInList] = newPosition;
                             
@@ -273,13 +273,13 @@ namespace Controller
                         {
                             if (playerListData[playerInList].health > 0)
                             {
-                                var newEnemyDate = enemyListData[enemyInList].Clone();
-                                newEnemyDate.actionPoint -= attackPoint;
-                                enemyListData[enemyInList] = newEnemyDate;
+                                var newEnemyData = enemyListData[enemyInList].Clone();
+                                newEnemyData.actionPoint -= attackPoint;
+                                enemyListData[enemyInList] = newEnemyData;
 
-                                var newPlayerDate = playerListData[playerInList].Clone();
-                                newPlayerDate.health -= newEnemyDate.damage <= newPlayerDate.health ? newEnemyDate.damage : newPlayerDate.health;
-                                playerListData[playerInList] = newPlayerDate;
+                                var newPlayerData = playerListData[playerInList].Clone();
+                                newPlayerData.health -= newEnemyData.damage <= newPlayerData.health ? newEnemyData.damage : newPlayerData.health;
+                                playerListData[playerInList] = newPlayerData;
 
                                 return true;
                             }
