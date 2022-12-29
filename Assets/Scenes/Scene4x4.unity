@@ -3655,6 +3655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1993194094}
   - component: {fileID: 1993194095}
+  - component: {fileID: 1993194096}
   m_Layer: 0
   m_Name: PlayField
   m_TagString: Untagged
@@ -3720,7 +3721,21 @@ MonoBehaviour:
   - {fileID: 929139098}
   - {fileID: 2051688580}
   - {fileID: 1720138928}
+  _aiEnemyManager: {fileID: 1993194096}
   _uiManager: {fileID: 958629150}
+--- !u!114 &1993194096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993194092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997d82f373abe95468314e0f17e335a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _active: 0
 --- !u!1001 &2051688578
 PrefabInstance:
   m_ObjectHideFlags: 0

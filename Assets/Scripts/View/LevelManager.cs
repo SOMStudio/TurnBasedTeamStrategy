@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using AI;
 using Controller;
 using Model;
 using UnityEngine;
@@ -21,6 +22,9 @@ namespace View
         [SerializeField] private PersonageManager[] _playerList;
         [SerializeField] private PersonageManager[] _enemyList;
 
+        [Header("AiEnemy")]
+        [SerializeField] private AiEnemyManger _aiEnemyManager;
+        
         [Header("UI")]
         [SerializeField] private LevelUiManager _uiManager;
 
@@ -38,6 +42,16 @@ namespace View
         private int clickPlayerNumber = -1;
         private int enterEnemyNumber = -1;
         private int clickEnemyNumber = -1;
+
+        public PersonageManager GetPlayerPersonageManager(int numberPlayer)
+        {
+            return _playerList[numberPlayer];
+        }
+
+        public PersonageManager GetEnemyPersonageManager(int numberEnemy)
+        {
+            return _enemyList[numberEnemy];
+        }
         
         private void Awake()
         {
@@ -276,7 +290,7 @@ namespace View
                 
                 if (battleManager.MovePlayer(clickPlayerNumber, newStep, out var moveStepVector))
                 {
-                    MovePersonage(clickedPlayer, newStep, moveStepVector, battleManager.GetPlayerDate(clickPlayerNumber));
+                    MovePersonage(clickedPlayer, newStep, moveStepVector, battleManager.GetPlayerData(clickPlayerNumber));
                 }
             }
         }
@@ -305,10 +319,9 @@ namespace View
                 
                 if (battleManager.AttackPlayer(clickPlayerNumber, clickEnemyNumber))
                 {
-                    clickedPlayer.UpdateState(battleManager.GetPlayerDate(clickPlayerNumber));
-                    clickedEnemy.UpdateState(battleManager.GetEnemyDate(clickEnemyNumber));
-
-                    CheckCompleteLevel();
+                    var attackingPlayerData = battleManager.GetPlayerData(clickPlayerNumber);
+                    var attackedEnemyData = battleManager.GetEnemyData(clickEnemyNumber);
+                    AttackPersonage(clickedPlayer, clickedEnemy, attackingPlayerData, attackedEnemyData);
                 }
             }
         }
