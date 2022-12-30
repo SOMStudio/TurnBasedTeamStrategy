@@ -22,33 +22,11 @@ namespace Controller
         public int PlayerCount => playerListData.Count;
         public PersonageData GetPlayerData(int playerInList) => playerListData[playerInList];
         public Vector2Int GetPlayerPosition(int playerInList) => playerPositionData[playerInList];
-        public int NumberPlayerOnPosition(Vector2Int checkPosition)
-        {
-            if (IsPositionFree(checkPosition)) return -1;
-            else
-            {
-                for (int i = 0; i < playerPositionData.Count; i++)
-                    if (playerPositionData[i] == checkPosition) return i;
-                
-                return -1;
-            }
-        }
 
         public int EnemyCount => enemyListData.Count;
         public PersonageData GetEnemyData(int enemyInList) => enemyListData[enemyInList];
         public Vector2Int GetEnemyPosition(int enemyInLIst) => enemyPositionData[enemyInLIst];
-        public int NumberEnemyOnPosition(Vector2Int checkPosition)
-        {
-            if (IsPositionFree(checkPosition)) return -1;
-            else
-            {
-                for (int i = 0; i < enemyPositionData.Count; i++)
-                    if (enemyPositionData[i] == checkPosition) return i;
-                
-                return -1;
-            }
-        }
-        
+
         public LevelData GetLevelData() => levelData;
         public BattleSetting GetBattleSetting() => battleSettingData;
         
@@ -61,6 +39,26 @@ namespace Controller
             enemyPositionData = new List<Vector2Int>();
         }
 
+        public int NumberPlayerOnPosition(Vector2Int checkPosition)
+        {
+            if (IsPositionFree(checkPosition)) return -1;
+            
+            for (int i = 0; i < playerPositionData.Count; i++)
+                if (playerPositionData[i] == checkPosition) return i;
+                
+            return -1;
+        }
+        
+        public int NumberEnemyOnPosition(Vector2Int checkPosition)
+        {
+            if (IsPositionFree(checkPosition)) return -1;
+            
+            for (int i = 0; i < enemyPositionData.Count; i++)
+                if (enemyPositionData[i] == checkPosition) return i;
+                
+            return -1;
+        }
+        
         public void SetLevel(LevelData setLevelData)
         {
             levelData = setLevelData;
@@ -195,62 +193,51 @@ namespace Controller
 
         public bool MovePlayer(int playerInList, Vector2Int newPosition, out List<Vector2Int> moveList)
         {
-            if (playerInList < playerListData.Count)
+            moveList = null;
+
+            if (playerInList >= playerListData.Count) return false;
+            if (playerPositionData[playerInList] == newPosition || !IsPositionFreeOrPersonageDead(newPosition)) return false;
+            if (!IsPlayerCanMove(playerInList)) return false;
+            
+            int movePoint = PointsForMovePlayer(playerInList, newPosition, out moveList);
+            if (movePoint <= playerListData[playerInList].actionPoint)
             {
-                if (playerPositionData[playerInList] != newPosition && IsPositionFreeOrPersonageDead(newPosition))
-                {
-                    if (IsPlayerCanMove(playerInList))
-                    {
-                        int movePoint = PointsForMovePlayer(playerInList, newPosition, out moveList);
-                        
-                        if (movePoint <= playerListData[playerInList].actionPoint)
-                        {
-                            var newPlayerData = playerListData[playerInList].Clone();
-                            newPlayerData.actionPoint -= movePoint;
-                            playerListData[playerInList] = newPlayerData;
+                var newPlayerData = playerListData[playerInList].Clone();
+                newPlayerData.actionPoint -= movePoint;
+                playerListData[playerInList] = newPlayerData;
                             
-                            playerPositionData[playerInList] = newPosition;
+                playerPositionData[playerInList] = newPosition;
                             
-                            return true;
-                        }
-                    }
-                }
+                return true;
             }
 
-            moveList = null;
             return false;
         }
 
         public bool AttackPlayer(int playerInList, int enemyInList)
         {
-            if (playerInList < playerListData.Count && enemyInList < enemyListData.Count)
+            if (playerInList >= playerListData.Count || enemyInList >= enemyListData.Count) return false;
+            if (!IsPlayerCanAttack(playerInList)) return false;
+            
+            
+            int attackDistance = GetAttackDistance(enemyPositionData[enemyInList], playerPositionData[playerInList]);
+            int attackActionNumber = playerListData[playerInList].attackActionList[0];
+            if (attackDistance > GetDistanceForAttackAction(attackActionNumber)) return false;
+            
+            int attackPoint = GetPointsForAttackAction(attackActionNumber);
+            if (attackPoint > playerListData[playerInList].actionPoint) return false;
+            
+            if (enemyListData[enemyInList].health > 0)
             {
-                if (IsPlayerCanAttack(playerInList))
-                {
-                    int attackDistance = GetAttackDistance(enemyPositionData[enemyInList], playerPositionData[playerInList]);
-                    int attackActionNumber = playerListData[playerInList].attackActionList[0];
-                    
-                    if (attackDistance <= GetDistanceForAttackAction(attackActionNumber))
-                    {
-                        int attackPoint = GetPointsForAttackAction(attackActionNumber);
-                        
-                        if (attackPoint <= playerListData[playerInList].actionPoint)
-                        {
-                            if (enemyListData[enemyInList].health > 0)
-                            {
-                                var newPlayerData = playerListData[playerInList].Clone();
-                                newPlayerData.actionPoint -= attackPoint;
-                                playerListData[playerInList] = newPlayerData;
+                var newPlayerData = playerListData[playerInList].Clone();
+                newPlayerData.actionPoint -= attackPoint;
+                playerListData[playerInList] = newPlayerData;
 
-                                var newEnemyData = enemyListData[enemyInList].Clone();
-                                newEnemyData.health -= newPlayerData.damage <= newEnemyData.health ? newPlayerData.damage : newEnemyData.health;
-                                enemyListData[enemyInList] = newEnemyData;
+                var newEnemyData = enemyListData[enemyInList].Clone();
+                newEnemyData.health -= newPlayerData.damage <= newEnemyData.health ? newPlayerData.damage : newEnemyData.health;
+                enemyListData[enemyInList] = newEnemyData;
 
-                                return true;
-                            }
-                        }
-                    }
-                }
+                return true;
             }
 
             return false;
@@ -258,62 +245,50 @@ namespace Controller
         
         public bool MoveEnemy(int enemyInList, Vector2Int newPosition, out List<Vector2Int> moveList)
         {
-            if (enemyInList < enemyListData.Count)
-            {
-                if (enemyPositionData[enemyInList] != newPosition && IsPositionFreeOrPersonageDead(newPosition))
-                {
-                    if (IsEnemyCanMove(enemyInList))
-                    {
-                        int movePoint = PointsForMoveEnemy(enemyInList, newPosition, out moveList);
+            moveList = null;
 
-                        if (movePoint <= enemyListData[enemyInList].actionPoint)
-                        {
-                            var newPlayerData = enemyListData[enemyInList].Clone();
-                            newPlayerData.actionPoint -= movePoint;
-                            enemyListData[enemyInList] = newPlayerData;
+            if (enemyInList >= enemyListData.Count) return false;
+            if (enemyPositionData[enemyInList] == newPosition || !IsPositionFreeOrPersonageDead(newPosition)) return false;
+            if (!IsEnemyCanMove(enemyInList)) return false;
+            
+            int movePoint = PointsForMoveEnemy(enemyInList, newPosition, out moveList);
+            if (movePoint <= enemyListData[enemyInList].actionPoint)
+            {
+                var newPlayerData = enemyListData[enemyInList].Clone();
+                newPlayerData.actionPoint -= movePoint;
+                enemyListData[enemyInList] = newPlayerData;
                             
-                            enemyPositionData[enemyInList] = newPosition;
+                enemyPositionData[enemyInList] = newPosition;
                             
-                            return true;
-                        }
-                    }
-                }
+                return true;
             }
 
-            moveList = null;
             return false;
         }
         
         public bool AttackEnemy(int enemyInList, int playerInList)
         {
-            if (enemyInList < enemyListData.Count && playerInList < playerListData.Count)
+            if (enemyInList >= enemyListData.Count || playerInList >= playerListData.Count) return false;
+            if (!IsEnemyCanAttack(enemyInList)) return false;
+            
+            int attackDistance = GetAttackDistance(playerPositionData[playerInList],enemyPositionData[enemyInList]);
+            int attackActionNumber = enemyListData[enemyInList].attackActionList[0];
+            if (attackDistance > GetDistanceForAttackAction(attackActionNumber)) return false;
+            
+            int attackPoint = GetPointsForAttackAction(attackActionNumber);
+            if (attackPoint > enemyListData[enemyInList].actionPoint) return false;
+            
+            if (playerListData[playerInList].health > 0)
             {
-                if (IsEnemyCanAttack(enemyInList))
-                {
-                    int attackDistance = GetAttackDistance(playerPositionData[playerInList],enemyPositionData[enemyInList]);
-                    int attackActionNumber = enemyListData[enemyInList].attackActionList[0];
-                    
-                    if (attackDistance <= GetDistanceForAttackAction(attackActionNumber))
-                    {
-                        int attackPoint = GetPointsForAttackAction(attackActionNumber);
-                        
-                        if (attackPoint <= enemyListData[enemyInList].actionPoint)
-                        {
-                            if (playerListData[playerInList].health > 0)
-                            {
-                                var newEnemyData = enemyListData[enemyInList].Clone();
-                                newEnemyData.actionPoint -= attackPoint;
-                                enemyListData[enemyInList] = newEnemyData;
+                var newEnemyData = enemyListData[enemyInList].Clone();
+                newEnemyData.actionPoint -= attackPoint;
+                enemyListData[enemyInList] = newEnemyData;
 
-                                var newPlayerData = playerListData[playerInList].Clone();
-                                newPlayerData.health -= newEnemyData.damage <= newPlayerData.health ? newEnemyData.damage : newPlayerData.health;
-                                playerListData[playerInList] = newPlayerData;
+                var newPlayerData = playerListData[playerInList].Clone();
+                newPlayerData.health -= newEnemyData.damage <= newPlayerData.health ? newEnemyData.damage : newPlayerData.health;
+                playerListData[playerInList] = newPlayerData;
 
-                                return true;
-                            }
-                        }
-                    }
-                }
+                return true;
             }
 
             return false;
