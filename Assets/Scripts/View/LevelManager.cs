@@ -68,6 +68,28 @@ namespace View
 
         private void Start()
         {
+            InitBattleManager();
+
+            InitComponents();
+            
+            InitUi();
+            
+            InitAi();
+        }
+
+        private void Update()
+        {
+            if (_uiManager.IsMenuActive) return;
+
+            CheckUnderMoseObjectState();
+
+            if (_aiEnemyManager.IsAiActive) return;
+
+            CheckClickObjectState();
+        }
+
+        private void InitBattleManager()
+        {
             if (_levelNumberDate >= 0)
             {
                 battleManager.SetLevel(levelList.level[_levelNumberDate]);
@@ -94,7 +116,10 @@ namespace View
             {
                 throw new InvalidDataException("Not set level number");
             }
+        }
 
+        private void InitComponents()
+        {
             foreach (var stepManager in _stepList)
             {
                 stepManager.OnOverStepEvent += OnOverStepHandler;
@@ -112,18 +137,22 @@ namespace View
                 enemyManager.OnOverPersonageEvent += OnOverEnemyHandler;
                 enemyManager.OnClickPersonageEvent += OnClickEnemyHandler;
             }
-            
+        }
+
+        private void InitUi()
+        {
             _uiManager.InitInformation(battleManager.GetEnemyTeamHealth(), battleManager.GetPlayerTeamHealth());
             _uiManager.ClickNextTurnButtonEvent += ActivateAiEnemyHandler;
-            
+        }
+
+        private void InitAi()
+        {
             _aiEnemyManager.InitState(battleManager, this);
             _aiEnemyManager.OnCompleteEvent += OnCompleteAiEnemyHandler;
         }
 
-        private void Update()
+        private void CheckUnderMoseObjectState()
         {
-            if (_uiManager.IsMenuActive) return;
-            
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, 100))
@@ -180,9 +209,10 @@ namespace View
                     CheckClearOverEnemyNumber();
                 }
             }
+        }
 
-            if (_aiEnemyManager.IsAiActive) return;
-            
+        private void CheckClickObjectState()
+        {
             if (Input.GetMouseButtonDown(0))
             {
                 if (enterStepNumber != -1)
@@ -270,7 +300,7 @@ namespace View
 
             CheckCompleteLevel();
         }
-        
+
         private void RestorePointsAllPersonage()
         {
             battleManager.RestorePointsForPlayerTeam();
@@ -292,7 +322,7 @@ namespace View
             {
                 _uiManager.ShowResultWindow("You win this game!");
             }
-            
+
             _uiManager.UpdateInformation(battleManager.GetEnemyTeamHealth(), battleManager.GetPlayerTeamHealth());
         }
 
