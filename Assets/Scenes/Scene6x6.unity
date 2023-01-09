@@ -5394,6 +5394,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7570115239683515299, guid: 99e85feca06126c4ca0eb8a283df1a6a, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570115239683515299, guid: 99e85feca06126c4ca0eb8a283df1a6a, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570115239683515299, guid: 99e85feca06126c4ca0eb8a283df1a6a, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7570115239683515356, guid: 99e85feca06126c4ca0eb8a283df1a6a, type: 3}
       propertyPath: m_Name
       value: ResultWindow
