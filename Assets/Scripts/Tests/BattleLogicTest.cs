@@ -19,41 +19,75 @@ namespace Tests
         }
         
         [Test]
-        public void CheckPlayersCanMove()
+        public void CheckCanMovePlayers()
         {
             battleManager.ClearPlayers();
             battleManager.ClearEnemies();
 
-            foreach (var playerData in personageList.personage)
+            foreach (var personageData in personageList.personage)
             {
                 battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             }
 
-            for (int i = 0; i < personageList.personage.Length; i++)
+            for (int i = 0; i < battleManager.PlayerCount; i++)
             {
                 Assert.IsTrue( battleManager.IsPlayerCanMove(i));
             }
         }
         
         [Test]
-        public void CheckPlayersCanAttack()
+        public void CheckCanMoveEnemies()
         {
             battleManager.ClearPlayers();
             battleManager.ClearEnemies();
 
-            foreach (var playerData in personageList.personage)
+            foreach (var personageData in personageList.personage)
+            {
+                battleManager.AddEnemy(personageList.personage[0], new Vector2Int(0, 0));
+            }
+
+            for (int i = 0; i < battleManager.EnemyCount; i++)
+            {
+                Assert.IsTrue( battleManager.IsEnemyCanMove(i));
+            }
+        }
+        
+        [Test]
+        public void CheckCanAttackPlayers()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+
+            foreach (var personageData in personageList.personage)
             {
                 battleManager.AddPlayer(personageList.personage[0], new Vector2Int(0, 0));
             }
 
-            for (int i = 0; i < personageList.personage.Length; i++)
+            for (int i = 0; i < battleManager.PlayerCount; i++)
             {
                 Assert.IsTrue( battleManager.IsPlayerCanAttack(i));
             }
         }
         
         [Test]
-        public void CheckOccupiedPlayerPlace()
+        public void CheckCanAttackEnemies()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+
+            foreach (var personageData in personageList.personage)
+            {
+                battleManager.AddEnemy(personageList.personage[0], new Vector2Int(0, 0));
+            }
+
+            for (int i = 0; i < battleManager.EnemyCount; i++)
+            {
+                Assert.IsTrue( battleManager.IsEnemyCanAttack(i));
+            }
+        }
+        
+        [Test]
+        public void CheckOccupiedLevel4X4Place()
         {
             battleManager.ClearPlayers();
             battleManager.ClearEnemies();
@@ -103,6 +137,22 @@ namespace Tests
         }
         
         [Test]
+        public void CheckMoveLineDirectEnemy()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(0, 0));
+            battleManager.SetLevel(levelList.level[0]);
+            
+            var newPosition = new Vector2Int(3, 0);
+            
+            battleManager.MoveEnemy(0, newPosition, out List<Vector2Int> moveList);
+            
+            Assert.AreEqual(moveList.Count, 1);
+        }
+        
+        [Test]
         public void CheckMoveBrokenDirectPlayer()
         {
             battleManager.ClearPlayers();
@@ -114,6 +164,22 @@ namespace Tests
             var newPosition = new Vector2Int(2, 2);
             
             battleManager.MovePlayer(0, newPosition, out List<Vector2Int> moveList);
+            
+            Assert.AreEqual(moveList.Count, 2);
+        }
+        
+        [Test]
+        public void CheckMoveBrokenDirectEnemy()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(0, 0));
+            battleManager.SetLevel(levelList.level[0]);
+            
+            var newPosition = new Vector2Int(2, 2);
+            
+            battleManager.MoveEnemy(0, newPosition, out List<Vector2Int> moveList);
             
             Assert.AreEqual(moveList.Count, 2);
         }
@@ -134,6 +200,21 @@ namespace Tests
         }
         
         [Test]
+        public void CheckMovePositionEnemy()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            battleManager.AddEnemy(personageList.personage[0], new Vector2Int(0, 0));
+            battleManager.SetLevel(levelList.level[0]);
+            
+            var newPosition = new Vector2Int(2, 2);
+            battleManager.MoveEnemy(0, newPosition, out List<Vector2Int> _);
+            
+            Assert.AreEqual(battleManager.GetEnemyPosition(0), newPosition);
+        }
+        
+        [Test]
         public void CheckMoveDistancePlayer()
         {
             battleManager.ClearPlayers();
@@ -144,12 +225,31 @@ namespace Tests
             battleManager.SetLevel(levelList.level[0]);
             
             var newPosition = new Vector2Int(2, 2);
-            List<Vector2Int> moveList = new List<Vector2Int>(); 
-            battleManager.MovePlayer(0, newPosition, out moveList);
+            battleManager.MovePlayer(0, newPosition, out List<Vector2Int> moveList);
             
             Assert.AreEqual(battleManager.DistanceForMove(moveList), 4);
             
             battleManager.MovePlayer(0, startPosition, out moveList);
+            
+            Assert.AreEqual(battleManager.DistanceForMove(moveList), 4);
+        }
+        
+        [Test]
+        public void CheckMoveDistanceEnemy()
+        {
+            battleManager.ClearPlayers();
+            battleManager.ClearEnemies();
+            
+            var startPosition = new Vector2Int(0, 0);
+            battleManager.AddEnemy(personageList.personage[0], startPosition);
+            battleManager.SetLevel(levelList.level[0]);
+            
+            var newPosition = new Vector2Int(2, 2);
+            battleManager.MoveEnemy(0, newPosition, out List<Vector2Int> moveList);
+            
+            Assert.AreEqual(battleManager.DistanceForMove(moveList), 4);
+            
+            battleManager.MoveEnemy(0, startPosition, out moveList);
             
             Assert.AreEqual(battleManager.DistanceForMove(moveList), 4);
         }
