@@ -4,8 +4,7 @@
     {
         move,
         sword_attack,
-        spire_near_attack,
-        spire_remote_attack,
+        spire_attack,
         bow_attack
     }
 }
