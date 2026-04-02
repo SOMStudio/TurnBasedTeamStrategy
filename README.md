@@ -20,6 +20,6 @@ All
 2) Simple animations are made using DOTween.
 3) Simple logic of artificial intelligence.
 
-## Unity 2021.3.13
+## Unity 2022
 
 ![Turn based team strategy](screenshot.png)
