@@ -10,7 +10,7 @@ namespace View.UI.Level
         [SerializeField] private ResultWindowManager _resultWindow;
         [SerializeField] private CanvasGroup _resultWindowCanvasGroup;
 
-        private bool isMenuActive = false;
+        private bool isMenuActive;
 
         public event Action ClickNextTurnButtonEvent;
         

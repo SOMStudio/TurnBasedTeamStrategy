@@ -4,7 +4,6 @@ using AI;
 using Controller;
 using Model;
 using UnityEngine;
-using View.UI;
 using View.UI.Level;
 
 namespace View
@@ -329,7 +328,6 @@ namespace View
         #region EventHandlers
         private void OnOverStepHandler(int x, int y)
         {
-            
         }
 
         private void OnClickStepHandler(int x, int y)
@@ -349,17 +347,14 @@ namespace View
         
         private void OnOverPlayerHandler(int x, int y)
         {
-            
         }
 
         private void OnClickPlayerHandler(int x, int y)
         {
-            
         }
         
         private void OnOverEnemyHandler(int x, int y)
         {
-            
         }
 
         private void OnClickEnemyHandler(int x, int y)

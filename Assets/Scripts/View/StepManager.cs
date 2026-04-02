@@ -1,7 +1,6 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace View
 {
@@ -20,7 +19,7 @@ namespace View
 
         private bool playOnPointEnterAnimation = false;
         
-        public Vector2Int PlaceStep => new Vector2Int(_x, _y);
+        public Vector2Int PlaceStep => new(_x, _y);
 
         public event Action<int, int> OnOverStepEvent;
         public event Action<int, int> OnClickStepEvent;
@@ -46,7 +45,6 @@ namespace View
 
         public void OnPointerExit()
         {
-            
         }
         
         public void OnPointerClick()

@@ -1,6 +1,4 @@
-﻿using UnityEngine.Serialization;
-
-namespace Model
+﻿namespace Model
 {
     [System.Serializable]
     public struct PersonageData

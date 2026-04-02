@@ -20,8 +20,8 @@ namespace AI
 
         private AiState aiState = AiState.Init;
 
-        private int activePersonageNumber = 0;
-        private int nearestEnemyNumber = 0;
+        private int activePersonageNumber;
+        private int nearestEnemyNumber;
 
         public event System.Action OnCompleteEvent;
 
@@ -78,8 +78,6 @@ namespace AI
         private void Init()
         {
             aiState = AiState.Wait;
-            
-            // init action
 
             StartCoroutine(StartWithDelay(InitDelay, () => aiState = AiState.SelectPersonage));
         }
@@ -171,8 +169,6 @@ namespace AI
         {
             aiState = AiState.Wait;
             _active = false;
-            
-            // move back personages
             
             StartCoroutine(StartWithDelay(SelectEnemyDelay, () => OnCompleteEvent?.Invoke()));
         }
